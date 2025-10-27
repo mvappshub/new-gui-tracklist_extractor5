@@ -1,0 +1,114 @@
+{
+  "QFluentWidgets": "{\"FontFamilies\": [\"Segoe UI\", \"Microsoft YaHei\", \"PingFang SC\"], \"ThemeColor\": \"#ff76441b\", \"ThemeMode\": \"Dark\"}",
+  "analysis": {
+    "ignore_numbers": [],
+    "max_id_digits": 6,
+    "min_id_digits": 3,
+    "tolerance_fail": 5,
+    "tolerance_warn": 2
+  },
+  "dark_mode": {
+    "accent": "#3B82F6",
+    "background": "#1F2937",
+    "surface": "#374151",
+    "text": "#F9FAFB",
+    "text_secondary": "#D1D5DB"
+  },
+  "export": {
+    "auto": true,
+    "default_dir": "C:/Users/vosahlo_martin/Desktop/test-data/exports"
+  },
+  "extract": {
+    "image_format": "jpeg",
+    "jpeg_quality": 85,
+    "max_side_px": 2000,
+    "render_dpi": 380,
+    "use_autocontrast": true,
+    "use_unsharp": true
+  },
+  "gz_brand": {
+    "claim_text": "Emotions. Materialized.",
+    "claim_visible": true,
+    "dark": "#1F2937",
+    "gray": "#6B7280",
+    "light_blue": "#3B82F6",
+    "light_gray": "#757575",
+    "logo_path": "assets/gz_logo_white.png",
+    "primary_blue": "#1E3A8A"
+  },
+  "gz_status": {
+    "fail_color": "#EF4444",
+    "ok_color": "#10B981",
+    "warn_color": "#F59E0B"
+  },
+  "input": {
+    "default_dir": "./data",
+    "pdf_dir": "C:/Users/vosahlo_martin/Desktop/test-data/tracklists",
+    "wav_dir": "C:/Users/vosahlo_martin/Desktop/test-data/masters"
+  },
+  "llm": {
+    "alt_models": [
+      "qwen/qwen2.5-vl-72b-instruct",
+      "anthropic/claude-3-haiku",
+      "qwen/qwen2.5-vl-3b-instruct",
+      "nousresearch/nous-hermes-2-vision-7b",
+      "moonshotai/kimi-vl-a3b-thinking",
+      "google/gemini-flash-1.5",
+      "qwen/qwen2.5-vl-32b-instruct",
+      "opengvlab/internvl3-14b",
+      "openai/gpt-4o",
+      "mistralai/pixtral-12b",
+      "microsoft/phi-4-multimodal-instruct",
+      "meta-llama/llama-3.2-90b-vision-instruct",
+      "meta-llama/llama-3.2-11b-vision-instruct",
+      "google/gemini-pro-1.5",
+      "google/gemini-2.5-pro",
+      "google/gemini-2.0-flash-001",
+      "fireworks/firellava-13b",
+      "bytedance/ui-tars-1.5-7b",
+      "bytedance-research/ui-tars-72b",
+      "baidu/ernie-4.5-vl-424b-a47b",
+      "baidu/ernie-4.5-vl-28b-a3b",
+      "01-ai/yi-vision",
+      "z-ai/glm-4.5v",
+      "x-ai/grok-2-vision-1212"
+    ],
+    "base_url": "https://example.com",
+    "model": "google/gemini-2.5-flash",
+    "temperature": 0.0
+  },
+  "prompts": {
+    "primary": "You are a tracklist extractor. Your single purpose is to return STRICT JSON.\nSchema: { \"tracks\": [ {\"title\": string, \"side\": string, \"position\": integer, \"duration_seconds\": integer, \"duration_formatted\": \"MM:SS\" } ] }.\nYour entire logic is governed by this unbreakable rule:\nA track is anchored by its duration value (e.g., 4:40, 5m10s). The title is ALL meaningful text visually associated with that single time value. Combine multi-line text into one title.\nFollow these steps:\nAnalyze Visual Layout: First, scan the entire image for structure. Identify columns, sections, and distinct visual blocks. Process multi-column layouts as separate lists.\nFind the Duration: For each potential track, locate the duration. This might be under a header like Time, Duration, or Length. If both Start/End times and a Length column exist, always prioritize the Length column.\nEstablish Context: Use headers like SIDE A, Side B:, TAPE FLIP: A, or multi-track prefixes (A1, B-02) to determine the side and position. The prefix (B-02) is the most reliable source and overrides other context. Position numbering MUST reset for each new side.\nStrictly Filter: If a block of text has no clear, parsable duration anchored to it, it IS NOT a track. Aggressively ignore non-track lines: notes, pauses, headers, ISRC codes, credits, empty rows, and total runtimes.",
+    "user_instructions": ""
+  },
+  "tables": {
+    "results-table": "AAAA/wAAAAAAAAABAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAABbYAAAAIAAEAAAAAAAABAAAAAAAAAGT/////AAAAhAAAAAAAAAAIAAAAKQAAAAEAAAAAAAADxwAAAAEAAAABAAAAPwAAAAEAAAAAAAAASgAAAAEAAAAAAAAAewAAAAEAAAAAAAAAUgAAAAEAAAAAAAAANAAAAAEAAAACAAAAPAAAAAEAAAACAAAD6AAAAAAAAAAAAAAAAAAAAAAAAAAAAQ==",
+    "tracks-table": "AAAA/wAAAAAAAAABAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbYAAAAIAAEAAAAAAAACAAAAAAAAAGT/////AAAAhAAAAAAAAAAIAAAAKQAAAAEAAAAAAAABvAAAAAEAAAABAAABuwAAAAEAAAABAAAAiQAAAAEAAAAAAAAAlAAAAAEAAAAAAAAAjQAAAAEAAAAAAAAAMAAAAAEAAAACAAAAPAAAAAEAAAACAAAD6AAAAAAAAAAAAAAAAAAAAAAAAAAAAQ=="
+  },
+  "ui": {
+    "base_font_family": "Poppins, Segoe UI, Arial, sans-serif",
+    "base_font_size": 13,
+    "dpi_scale": 1,
+    "heading_font_size": 12,
+    "table_action_bg_color": "#E0E7FF",
+    "theme": "AUTO",
+    "total_row_bg_color": "#F3F4F6",
+    "treeview_row_height": 28,
+    "update_interval_ms": 50,
+    "window_geometry": "1720x1440"
+  },
+  "waveform": {
+    "default_volume": "0.5",
+    "downsample_factor": 10,
+    "position_line_color": "#EF4444",
+    "waveform_color": "#3B82F6"
+  },
+  "waveform_editor": {
+    "enable_snapping": "true",
+    "min_region_duration": "0.3",
+    "overview_points": 2000,
+    "rms_stride_ratio": 2,
+    "show_pdf_markers": "true",
+    "snap_tolerance": "0.1"
+  }
+}

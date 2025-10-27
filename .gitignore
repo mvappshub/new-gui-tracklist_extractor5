@@ -1,0 +1,41 @@
+# Environment
+.env
+settings.json
+
+# Virtual environments
+.venv/
+venv/
+
+# Python bytecode / cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Tool caches
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.trash/
+
+# Editors / IDEs
+.vscode/
+.idea/
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# User output (nechceme v repu)
+exports/
+
+# Archives / backups
+*.7z
+*.bak
+*.backup
+
+#Ignore insiders AI rules
+.github\instructions\codacy.instructions.md
+node_modules
+node_modules\
+context\

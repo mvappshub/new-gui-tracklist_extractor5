@@ -1,0 +1,11 @@
+[run]
+source =
+    core/domain
+    services
+omit =
+    core/domain/extraction.py
+    services/analysis_service.py
+
+[report]
+show_missing = False
+

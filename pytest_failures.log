@@ -1,0 +1,131 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.0, pytest-8.3.1, pluggy-1.5.0 -- C:\Program Files\Python311\python.exe
+cachedir: .pytest_cache
+PyQt6 6.9.1 -- Qt runtime 6.9.2 -- Qt compiled 6.9.0
+rootdir: d:\new gui tracklist_extractor2
+configfile: pytest.ini
+testpaths: tests
+plugins: qt-4.2.0, typeguard-4.3.0, anyio-4.4.0
+collecting ... collected 136 items / 79 deselected / 57 selected
+
+tests/test_ai_mode_detector.py::TestAiAudioModeDetector::test_ai_detector_with_valid_filenames PASSED [  1%]
+tests/test_ai_mode_detector.py::TestAiAudioModeDetector::test_ai_detector_with_ambiguous_filenames PASSED [  3%]
+tests/test_ai_mode_detector.py::TestAiAudioModeDetector::test_ai_detector_with_empty_input PASSED [  5%]
+tests/test_ai_mode_detector.py::TestFakeAudioModeDetector::test_fake_detector_with_side_prefixes PASSED [  7%]
+tests/test_ai_mode_detector.py::TestFakeAudioModeDetector::test_fake_detector_with_letter_number_prefixes FAILED [  8%]
+tests/test_ai_mode_detector.py::TestFakeAudioModeDetector::test_fake_detector_with_ambiguous_filenames PASSED [ 10%]
+tests/test_ai_mode_detector.py::TestFakeAudioModeDetector::test_fake_detector_normalizes_positions PASSED [ 12%]
+tests/test_ai_mode_detector.py::TestFakeAudioModeDetector::test_fake_detector_is_deterministic PASSED [ 14%]
+tests/test_characterization.py::test_discover_and_pair_files_matches_golden PASSED [ 15%]
+tests/test_characterization.py::test_compare_data_matches_golden PASSED  [ 17%]
+tests/test_characterization.py::test_compare_data_respects_injected_tolerances[1-2-FAIL] PASSED [ 19%]
+tests/test_characterization.py::test_compare_data_respects_injected_tolerances[2-5-WARN] PASSED [ 21%]
+tests/test_characterization.py::test_compare_data_respects_injected_tolerances[4-6-OK] PASSED [ 22%]
+tests/test_characterization.py::test_discover_and_pair_files_respects_id_settings[1-3-ignore_numbers0-expected_ids0] PASSED [ 24%]
+tests/test_characterization.py::test_discover_and_pair_files_respects_id_settings[2-3-ignore_numbers1-expected_ids1] PASSED [ 26%]
+tests/test_characterization.py::test_discover_and_pair_files_respects_id_settings[1-3-ignore_numbers2-expected_ids2] PASSED [ 28%]
+tests/test_config.py::test_config PASSED                                 [ 29%]
+tests/test_export_auto.py::TestExportAuto::test_export_success PASSED    [ 31%]
+tests/test_export_auto.py::TestExportAuto::test_export_disabled PASSED   [ 33%]
+tests/test_export_auto.py::TestExportAuto::test_export_directory_creation PASSED [ 35%]
+tests/test_export_auto.py::TestExportAuto::test_export_write_failure PASSED [ 36%]
+tests/test_export_auto.py::TestExportAuto::test_export_empty_results PASSED [ 38%]
+tests/test_export_auto.py::TestExportAuto::test_export_json_structure_validation PASSED [ 40%]
+tests/test_export_auto.py::TestExportAuto::test_export_open_failure PASSED [ 42%]
+tests/test_export_service.py::test_export_results_creates_file PASSED    [ 43%]
+tests/test_export_service.py::test_export_respects_auto_export_disabled PASSED [ 45%]
+tests/test_export_service.py::test_export_returns_none_for_empty_results PASSED [ 47%]
+tests/test_fluent_gui_legacy.py::test_expected_classes_are_available PASSED [ 49%]
+tests/test_fluent_gui_legacy.py::test_expected_functions_are_available PASSED [ 50%]
+tests/test_fluent_gui_legacy.py::test_expected_constants_are_available FAILED [ 52%]
+tests/test_fluent_gui_legacy.py::test_main_window_can_instantiate PASSED [ 54%]
+tests/test_fluent_gui_legacy.py::test_fluent_gui_entrypoint_launches PASSED [ 56%]
+tests/test_gui_minimal.py::test_gui_minimal PASSED                       [ 57%]
+tests/test_gui_show.py::test_gui_show PASSED                             [ 59%]
+tests/test_results_table_model.py::test_results_table_model_creation ERROR [ 61%]
+tests/test_results_table_model.py::test_add_result_increases_row_count ERROR [ 63%]
+tests/test_results_table_model.py::test_data_retrieval ERROR             [ 64%]
+tests/test_results_table_model.py::test_status_color ERROR               [ 66%]
+tests/test_tracks_table_model.py::test_tracks_table_model_creation PASSED [ 68%]
+tests/test_tracks_table_model.py::test_update_data_populates_model PASSED [ 70%]
+tests/test_tracks_table_model.py::test_track_match_icon_ok PASSED        [ 71%]
+tests/test_tracks_table_model.py::test_track_match_icon_fail PASSED      [ 73%]
+tests/test_tracks_table_model.py::test_track_match_display_empty PASSED  [ 75%]
+tests/test_tracks_table_model.py::test_waveform_icon_present PASSED      [ 77%]
+tests/test_wav_reader.py::test_read_wav_files_success PASSED             [ 78%]
+tests/test_wav_reader.py::test_read_wav_files_corrupted_zip PASSED       [ 80%]
+tests/test_wav_reader.py::test_read_wav_files_empty_zip PASSED           [ 82%]
+tests/test_wav_reader.py::test_read_wav_files_corrupted_wav PASSED       [ 84%]
+tests/test_wav_reader.py::test_read_wav_files_no_wav_extension PASSED    [ 85%]
+tests/test_wav_reader.py::test_read_wav_files_soundfile_fallback PASSED  [ 87%]
+tests/test_wav_reader.py::test_read_wav_files_duration_extraction_failure PASSED [ 89%]
+tests/test_wav_reader.py::test_read_wav_files_duplicate_basenames PASSED [ 91%]
+tests/test_wav_reader.py::test_read_wav_files_skips_zero_duration PASSED [ 92%]
+tests/test_worker_manager.py::test_worker_manager_creation PASSED        [ 94%]
+tests/test_worker_manager.py::test_start_analysis_starts_thread_and_worker PASSED [ 96%]
+tests/test_worker_manager.py::test_cleanup_stops_thread PASSED           [ 98%]
+tests/test_worker_manager.py::test_signals_are_forwarded PASSED          [100%]
+
+=================================== ERRORS ====================================
+_____________ ERROR at setup of test_results_table_model_creation _____________
+tests\test_results_table_model.py:18: in theme_settings
+    return ThemeSettings(
+E   TypeError: ThemeSettings.__init__() missing 1 required positional argument: 'total_row_bg_color'
+____________ ERROR at setup of test_add_result_increases_row_count ____________
+tests\test_results_table_model.py:18: in theme_settings
+    return ThemeSettings(
+E   TypeError: ThemeSettings.__init__() missing 1 required positional argument: 'total_row_bg_color'
+____________________ ERROR at setup of test_data_retrieval ____________________
+tests\test_results_table_model.py:18: in theme_settings
+    return ThemeSettings(
+E   TypeError: ThemeSettings.__init__() missing 1 required positional argument: 'total_row_bg_color'
+_____________________ ERROR at setup of test_status_color _____________________
+tests\test_results_table_model.py:18: in theme_settings
+    return ThemeSettings(
+E   TypeError: ThemeSettings.__init__() missing 1 required positional argument: 'total_row_bg_color'
+================================== FAILURES ===================================
+__ TestFakeAudioModeDetector.test_fake_detector_with_letter_number_prefixes ___
+tests\test_ai_mode_detector.py:135: in test_fake_detector_with_letter_number_prefixes
+    assert "B" in result
+E   AssertionError: assert 'B' in {'A': [WavInfo(filename='A1_intro.wav', duration_sec=120.0, side=None, position=1), WavInfo(filename='A2_song.wav', duration_sec=150.0, side=None, position=2), WavInfo(filename='B1_ballad.wav', duration_sec=210.0, side=None, position=3)]}
+____________________ test_expected_constants_are_available ____________________
+tests\test_fluent_gui_legacy.py:118: in test_expected_constants_are_available
+    _assert_attributes_exist(fluent_gui_module, required_constants)
+tests\test_fluent_gui_legacy.py:54: in _assert_attributes_exist
+    assert not missing, f"Missing expected attributes: {missing}"
+E   AssertionError: Missing expected attributes: ['SYMBOL_OPEN', 'COMMENT_SETUP_TOP_TABLE', 'COMMENT_SETUP_BOTTOM_TABLE', 'COMMENT_MAX_WIDTH_WAV', 'COMMENT_APP_STARTUP', 'COMMENT_CONFIG_LOAD', 'COMMENT_CONFIG_ERROR', 'COMMENT_BUTTON_COLOR', 'COMMENT_BUTTON_COLOR_DESC']
+E   assert not ['SYMBOL_OPEN', 'COMMENT_SETUP_TOP_TABLE', 'COMMENT_SETUP_BOTTOM_TABLE', 'COMMENT_MAX_WIDTH_WAV', 'COMMENT_APP_STARTUP', 'COMMENT_CONFIG_LOAD', ...]
+============================== warnings summary ===============================
+<frozen importlib._bootstrap>:241
+<frozen importlib._bootstrap>:241
+  <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyPacked has no __module__ attribute
+
+<frozen importlib._bootstrap>:241
+<frozen importlib._bootstrap>:241
+  <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
+
+<frozen importlib._bootstrap>:241
+  <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type swigvarlink has no __module__ attribute
+
+tests/test_config.py::test_config
+  c:\program files\python311\lib\site-packages\_pytest\python.py:163: PytestReturnNotNoneWarning: Expected None, but tests/test_config.py::test_config returned True, which will be an error in a future version of pytest.  Did you mean to use `assert` instead of `return`?
+    warnings.warn(
+
+tests/test_gui_minimal.py::test_gui_minimal
+  c:\program files\python311\lib\site-packages\_pytest\python.py:163: PytestReturnNotNoneWarning: Expected None, but tests/test_gui_minimal.py::test_gui_minimal returned False, which will be an error in a future version of pytest.  Did you mean to use `assert` instead of `return`?
+    warnings.warn(
+
+tests/test_gui_show.py::test_gui_show
+  c:\program files\python311\lib\site-packages\_pytest\python.py:163: PytestReturnNotNoneWarning: Expected None, but tests/test_gui_show.py::test_gui_show returned 1, which will be an error in a future version of pytest.  Did you mean to use `assert` instead of `return`?
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/test_ai_mode_detector.py::TestFakeAudioModeDetector::test_fake_detector_with_letter_number_prefixes - AssertionError: assert 'B' in {'A': [WavInfo(filename='A1_intro.wav', duration_sec=120.0, side=None, position=1), WavInfo(filename='A2_song.wav', duration_sec=150.0, side=None, position=2), WavInfo(filename='B1_ballad.wav', duration_sec=210.0, side=None, position=3)]}
+FAILED tests/test_fluent_gui_legacy.py::test_expected_constants_are_available - AssertionError: Missing expected attributes: ['SYMBOL_OPEN', 'COMMENT_SETUP_TOP_TABLE', 'COMMENT_SETUP_BOTTOM_TABLE', 'COMMENT_MAX_WIDTH_WAV', 'COMMENT_APP_STARTUP', 'COMMENT_CONFIG_LOAD', 'COMMENT_CONFIG_ERROR', 'COMMENT_BUTTON_COLOR', 'COMMENT_BUTTON_COLOR_DESC']
+assert not ['SYMBOL_OPEN', 'COMMENT_SETUP_TOP_TABLE', 'COMMENT_SETUP_BOTTOM_TABLE', 'COMMENT_MAX_WIDTH_WAV', 'COMMENT_APP_STARTUP', 'COMMENT_CONFIG_LOAD', ...]
+ERROR tests/test_results_table_model.py::test_results_table_model_creation - TypeError: ThemeSettings.__init__() missing 1 required positional argument: 'total_row_bg_color'
+ERROR tests/test_results_table_model.py::test_add_result_increases_row_count - TypeError: ThemeSettings.__init__() missing 1 required positional argument: 'total_row_bg_color'
+ERROR tests/test_results_table_model.py::test_data_retrieval - TypeError: ThemeSettings.__init__() missing 1 required positional argument: 'total_row_bg_color'
+ERROR tests/test_results_table_model.py::test_status_color - TypeError: ThemeSettings.__init__() missing 1 required positional argument: 'total_row_bg_color'
+====== 2 failed, 51 passed, 79 deselected, 8 warnings, 4 errors in 4.84s ======

@@ -1,0 +1,85 @@
+*** Update File: ui/main_window.py
+@@
+-    def _update_gz_logo(self):
+-        try:
+-            if not hasattr(self, "gz_logo_label"):
+-                self.gz_logo_label = QLabel(parent=self)
+-                self.gz_logo_label.setObjectName("gzLogo")
+-
+-            logo_path = getattr(cfg, "gz_logo_path", None)
+-            logo_value = getattr(logo_path, "value", "assets/gz_logo_white.png") if logo_path else "assets/gz_logo_white.png"
+-            logo_full_path = Path(logo_value)
+-
+-            if logo_full_path.exists():
+-                from PyQt6.QtGui import QPixmap
+-
+-                pixmap = QPixmap(str(logo_full_path))
+-                scaled_pixmap = pixmap.scaledToHeight(24, Qt.TransformationMode.SmoothTransformation)
+-                self.gz_logo_label.setPixmap(scaled_pixmap)
+-                self.gz_logo_label.show()
+-            else:
+-                self.gz_logo_label.setText("GZ Media")
+-                logging.warning("GZ Media logo file not found at %s, using text fallback", logo_full_path)
+-        except Exception as exc:
+-            logging.error("Failed to load GZ Media logo: %s", exc)
+-            if hasattr(self, "gz_logo_label"):
+-                self.gz_logo_label.hide()
+-
+-    def _update_gz_claim_visibility(self):
+-        try:
+-            claim_visible_attr = getattr(cfg, "gz_claim_visible", None)
+-            claim_text_attr = getattr(cfg, "gz_claim_text", None)
+-            claim_visible = getattr(claim_visible_attr, "value", True)
+-            claim_text = getattr(claim_text_attr, "value", "Emotions. Materialized.")
+-
+-            if not hasattr(self, "gz_claim_label"):
+-                self.gz_claim_label = QLabel(parent=self)
+-
+-            if claim_visible:
+-                self.gz_claim_label.setText(claim_text)
+-                self.gz_claim_label.show()
+-            else:
+-                self.gz_claim_label.hide()
+-        except Exception as exc:
+-            logging.error("Failed to update GZ Media claim: %s", exc)
+-            if hasattr(self, "gz_claim_label"):
+-                self.gz_claim_label.hide()
++    def _update_gz_logo(self):
++        try:
++            if not hasattr(self, "gz_logo_label"):
++                self.gz_logo_label = QLabel(parent=self)
++                self.gz_logo_label.setObjectName("gzLogo")
++
++            logo_path = self.theme_settings.logo_path
++
++            if logo_path.exists():
++                from PyQt6.QtGui import QPixmap
++
++                pixmap = QPixmap(str(logo_path))
++                scaled_pixmap = pixmap.scaledToHeight(24, Qt.TransformationMode.SmoothTransformation)
++                self.gz_logo_label.setPixmap(scaled_pixmap)
++                self.gz_logo_label.show()
++            else:
++                self.gz_logo_label.setText("GZ Media")
++                logging.warning("GZ Media logo file not found at %s, using text fallback", logo_path)
++        except Exception as exc:
++            logging.error("Failed to load GZ Media logo: %s", exc)
++            if hasattr(self, "gz_logo_label"):
++                self.gz_logo_label.hide()
++
++    def _update_gz_claim_visibility(self):
++        try:
++            if not hasattr(self, "gz_claim_label"):
++                self.gz_claim_label = QLabel(parent=self)
++
++            if self.theme_settings.claim_visible:
++                self.gz_claim_label.setText(self.theme_settings.claim_text)
++                self.gz_claim_label.show()
++            else:
++                self.gz_claim_label.hide()
++        except Exception as exc:
++            logging.error("Failed to update GZ Media claim: %s", exc)
++            if hasattr(self, "gz_claim_label"):
++                self.gz_claim_label.hide()
+*** End Patch
+

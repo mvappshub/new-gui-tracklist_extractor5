@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "[pre-commit] Checking formatting (black --check)" >&2
+python -m black --check .
+
+echo "[pre-commit] Linting (ruff check)" >&2
+python -m ruff check .
+
+echo "[pre-commit] Type checking (mypy)" >&2
+python -m mypy .
+
+echo "[pre-commit] OK" >&2
+

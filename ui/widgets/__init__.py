@@ -1,0 +1,2 @@
+"""UI widget component namespace."""
+

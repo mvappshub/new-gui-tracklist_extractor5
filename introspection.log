@@ -1,0 +1,14 @@
+$ git --version || true
+git version 2.43.0
+$ git status --porcelain || true
+fatal: not a git repository (or any parent up to mount point /mnt)
+Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
+$ git tag -l 'refactor-phase1-stabilization*' || true
+fatal: not a git repository (or any parent up to mount point /mnt)
+Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
+$ python --version || true
+/bin/bash: line 9: python: command not found
+$ python -m pip show coverage ruff mypy pytest || true
+/bin/bash: line 11: python: command not found
+$ openspec --version || true
+/bin/bash: line 13: openspec: command not found

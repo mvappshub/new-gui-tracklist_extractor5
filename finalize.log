@@ -1,0 +1,361 @@
+
+[1;36m== Bootstrap Python environment ==[0m
+Defaulting to user installation because normal site-packages is not writeable
+Requirement already satisfied: pip in /home/unix/.local/lib/python3.12/site-packages (25.2)
+Requirement already satisfied: wheel in /home/unix/.local/lib/python3.12/site-packages (0.45.1)
+Requirement already satisfied: setuptools in /home/unix/.local/lib/python3.12/site-packages (80.9.0)
+[0;34m[i][0m requirements-dev.txt not found, using requirements.txt
+Defaulting to user installation because normal site-packages is not writeable
+Requirement already satisfied: Pillow>=10.0 in /home/unix/.local/lib/python3.12/site-packages (from -r requirements.txt (line 1)) (12.0.0)
+Requirement already satisfied: PyMuPDF>=1.24 in /home/unix/.local/lib/python3.12/site-packages (from -r requirements.txt (line 2)) (1.26.5)
+Requirement already satisfied: pydantic>=2.0 in /home/unix/.local/lib/python3.12/site-packages (from -r requirements.txt (line 3)) (2.12.3)
+Requirement already satisfied: python-dotenv>=1.0.1 in /home/unix/.local/lib/python3.12/site-packages (from -r requirements.txt (line 4)) (1.1.1)
+Requirement already satisfied: openai>=1.30 in /home/unix/.local/lib/python3.12/site-packages (from -r requirements.txt (line 5)) (2.6.0)
+Requirement already satisfied: PyQt6>=6.4 in /home/unix/.local/lib/python3.12/site-packages (from -r requirements.txt (line 6)) (6.9.1)
+Requirement already satisfied: pyqtgraph>=0.13.0 in /home/unix/.local/lib/python3.12/site-packages (from -r requirements.txt (line 7)) (0.13.7)
+Requirement already satisfied: soundfile>=0.12 in /home/unix/.local/lib/python3.12/site-packages (from -r requirements.txt (line 8)) (0.13.1)
+Requirement already satisfied: pytest-qt>=4.2.0 in /home/unix/.local/lib/python3.12/site-packages (from -r requirements.txt (line 9)) (4.5.0)
+Requirement already satisfied: pytest-mock>=3.12.0 in /home/unix/.local/lib/python3.12/site-packages (from -r requirements.txt (line 10)) (3.15.1)
+Requirement already satisfied: ruff>=0.5 in /home/unix/.local/lib/python3.12/site-packages (from -r requirements.txt (line 12)) (0.14.1)
+Requirement already satisfied: black>=24.0 in /home/unix/.local/lib/python3.12/site-packages (from -r requirements.txt (line 13)) (25.9.0)
+Requirement already satisfied: mypy>=1.8 in /home/unix/.local/lib/python3.12/site-packages (from -r requirements.txt (line 14)) (1.18.2)
+Requirement already satisfied: pytest>=8.0 in /home/unix/.local/lib/python3.12/site-packages (from -r requirements.txt (line 15)) (8.4.2)
+Requirement already satisfied: coverage>=7.0 in /home/unix/.local/lib/python3.12/site-packages (from -r requirements.txt (line 16)) (7.11.0)
+Requirement already satisfied: annotated-types>=0.6.0 in /home/unix/.local/lib/python3.12/site-packages (from pydantic>=2.0->-r requirements.txt (line 3)) (0.7.0)
+Requirement already satisfied: pydantic-core==2.41.4 in /home/unix/.local/lib/python3.12/site-packages (from pydantic>=2.0->-r requirements.txt (line 3)) (2.41.4)
+Requirement already satisfied: typing-extensions>=4.14.1 in /home/unix/.local/lib/python3.12/site-packages (from pydantic>=2.0->-r requirements.txt (line 3)) (4.15.0)
+Requirement already satisfied: typing-inspection>=0.4.2 in /home/unix/.local/lib/python3.12/site-packages (from pydantic>=2.0->-r requirements.txt (line 3)) (0.4.2)
+Requirement already satisfied: anyio<5,>=3.5.0 in /home/unix/.local/lib/python3.12/site-packages (from openai>=1.30->-r requirements.txt (line 5)) (4.11.0)
+Requirement already satisfied: distro<2,>=1.7.0 in /usr/lib/python3/dist-packages (from openai>=1.30->-r requirements.txt (line 5)) (1.9.0)
+Requirement already satisfied: httpx<1,>=0.23.0 in /home/unix/.local/lib/python3.12/site-packages (from openai>=1.30->-r requirements.txt (line 5)) (0.28.1)
+Requirement already satisfied: jiter<1,>=0.10.0 in /home/unix/.local/lib/python3.12/site-packages (from openai>=1.30->-r requirements.txt (line 5)) (0.11.1)
+Requirement already satisfied: sniffio in /home/unix/.local/lib/python3.12/site-packages (from openai>=1.30->-r requirements.txt (line 5)) (1.3.1)
+Requirement already satisfied: tqdm>4 in /home/unix/.local/lib/python3.12/site-packages (from openai>=1.30->-r requirements.txt (line 5)) (4.67.1)
+Requirement already satisfied: idna>=2.8 in /usr/lib/python3/dist-packages (from anyio<5,>=3.5.0->openai>=1.30->-r requirements.txt (line 5)) (3.6)
+Requirement already satisfied: certifi in /usr/lib/python3/dist-packages (from httpx<1,>=0.23.0->openai>=1.30->-r requirements.txt (line 5)) (2023.11.17)
+Requirement already satisfied: httpcore==1.* in /home/unix/.local/lib/python3.12/site-packages (from httpx<1,>=0.23.0->openai>=1.30->-r requirements.txt (line 5)) (1.0.9)
+Requirement already satisfied: h11>=0.16 in /home/unix/.local/lib/python3.12/site-packages (from httpcore==1.*->httpx<1,>=0.23.0->openai>=1.30->-r requirements.txt (line 5)) (0.16.0)
+Requirement already satisfied: PyQt6-sip<14,>=13.8 in /home/unix/.local/lib/python3.12/site-packages (from PyQt6>=6.4->-r requirements.txt (line 6)) (13.10.2)
+Requirement already satisfied: PyQt6-Qt6<6.10.0,>=6.9.0 in /home/unix/.local/lib/python3.12/site-packages (from PyQt6>=6.4->-r requirements.txt (line 6)) (6.9.2)
+Requirement already satisfied: numpy>=1.22.0 in /home/unix/.local/lib/python3.12/site-packages (from pyqtgraph>=0.13.0->-r requirements.txt (line 7)) (2.3.4)
+Requirement already satisfied: cffi>=1.0 in /home/unix/.local/lib/python3.12/site-packages (from soundfile>=0.12->-r requirements.txt (line 8)) (2.0.0)
+Requirement already satisfied: pluggy>=1.1 in /home/unix/.local/lib/python3.12/site-packages (from pytest-qt>=4.2.0->-r requirements.txt (line 9)) (1.6.0)
+Requirement already satisfied: click>=8.0.0 in /usr/lib/python3/dist-packages (from black>=24.0->-r requirements.txt (line 13)) (8.1.6)
+Requirement already satisfied: mypy-extensions>=0.4.3 in /home/unix/.local/lib/python3.12/site-packages (from black>=24.0->-r requirements.txt (line 13)) (1.1.0)
+Requirement already satisfied: packaging>=22.0 in /home/unix/.local/lib/python3.12/site-packages (from black>=24.0->-r requirements.txt (line 13)) (25.0)
+Requirement already satisfied: pathspec>=0.9.0 in /home/unix/.local/lib/python3.12/site-packages (from black>=24.0->-r requirements.txt (line 13)) (0.12.1)
+Requirement already satisfied: platformdirs>=2 in /home/unix/.local/lib/python3.12/site-packages (from black>=24.0->-r requirements.txt (line 13)) (4.5.0)
+Requirement already satisfied: pytokens>=0.1.10 in /home/unix/.local/lib/python3.12/site-packages (from black>=24.0->-r requirements.txt (line 13)) (0.2.0)
+Requirement already satisfied: iniconfig>=1 in /home/unix/.local/lib/python3.12/site-packages (from pytest>=8.0->-r requirements.txt (line 15)) (2.3.0)
+Requirement already satisfied: pygments>=2.7.2 in /usr/lib/python3/dist-packages (from pytest>=8.0->-r requirements.txt (line 15)) (2.17.2)
+Requirement already satisfied: pycparser in /home/unix/.local/lib/python3.12/site-packages (from cffi>=1.0->soundfile>=0.12->-r requirements.txt (line 8)) (2.23)
+[0;33m[warn][0m openspec CLI not found → attempting optional install
+Defaulting to user installation because normal site-packages is not writeable
+ERROR: Could not find a version that satisfies the requirement openspec-cli (from versions: none)
+ERROR: No matching distribution found for openspec-cli
+[0;33m[warn][0m openspec optional install failed (continuing)
+
+[1;36m== Verify tool availability ==[0m
+Python 3.12.3
+Name: coverage
+Version: 7.11.0
+Summary: Code coverage measurement for Python
+Home-page: https://github.com/nedbat/coveragepy
+Author: Ned Batchelder and 243 others
+Author-email: ned@nedbatchelder.com
+License: Apache-2.0
+Location: /home/unix/.local/lib/python3.12/site-packages
+Requires: 
+Required-by: 
+---
+Name: pytest
+Version: 8.4.2
+Summary: pytest: simple powerful testing with Python
+Home-page: https://docs.pytest.org/en/latest/
+Author: Holger Krekel, Bruno Oliveira, Ronny Pfannschmidt, Floris Bruynooghe, Brianna Laugher, Florian Bruhin, Others (See AUTHORS)
+Author-email: 
+License: MIT
+Location: /home/unix/.local/lib/python3.12/site-packages
+Requires: iniconfig, packaging, pluggy, pygments
+Required-by: pytest-mock, pytest-qt
+---
+Name: ruff
+Version: 0.14.1
+Summary: An extremely fast Python linter and code formatter, written in Rust.
+Home-page: https://docs.astral.sh/ruff
+Author: 
+Author-email: "Astral Software Inc." <hey@astral.sh>
+License: 
+Location: /home/unix/.local/lib/python3.12/site-packages
+Requires: 
+Required-by: 
+---
+Name: mypy
+Version: 1.18.2
+Summary: Optional static typing for Python
+Home-page: https://www.mypy-lang.org/
+Author: 
+Author-email: Jukka Lehtosalo <jukka.lehtosalo@iki.fi>
+License: MIT
+Location: /home/unix/.local/lib/python3.12/site-packages
+Requires: mypy_extensions, pathspec, typing_extensions
+Required-by: 
+./tools/bootstrap_finalize.sh: line 38: openspec: command not found
+
+[1;36m== Run finalize flow ==[0m
+
+[1;36m== Preflight ==[0m
+[0;32m[ok][0m tools/check.sh is executable
+
+[1;36m== Quality Gate ==[0m
+Collecting coverage metrics...
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-8.4.2, pluggy-1.6.0 -- /usr/bin/python3
+cachedir: .pytest_cache
+PyQt6 6.9.1 -- Qt runtime 6.9.2 -- Qt compiled 6.9.0
+rootdir: /mnt/d/new gui tracklist_extractor2
+configfile: pytest.ini
+testpaths: tests
+plugins: anyio-4.11.0, mock-3.15.1, qt-4.5.0
+collecting ... collected 111 items / 79 deselected / 32 selected
+
+tests/test_characterization.py::test_discover_and_pair_files_matches_golden PASSED [  3%]
+tests/test_characterization.py::test_compare_data_matches_golden PASSED  [  6%]
+tests/test_config.py::test_config PASSED                                 [  9%]
+tests/test_export_auto.py::TestExportAuto::test_export_success PASSED    [ 12%]
+tests/test_export_auto.py::TestExportAuto::test_export_disabled PASSED   [ 15%]
+tests/test_export_auto.py::TestExportAuto::test_export_directory_creation PASSED [ 18%]
+tests/test_export_auto.py::TestExportAuto::test_export_write_failure PASSED [ 21%]
+tests/test_export_auto.py::TestExportAuto::test_export_empty_results PASSED [ 25%]
+tests/test_export_auto.py::TestExportAuto::test_export_json_structure_validation PASSED [ 28%]
+tests/test_export_auto.py::TestExportAuto::test_export_open_failure PASSED [ 31%]
+tests/test_export_service.py::test_export_results_creates_file PASSED    [ 34%]
+tests/test_export_service.py::test_export_respects_auto_export_disabled PASSED [ 37%]
+tests/test_export_service.py::test_export_returns_none_for_empty_results PASSED [ 40%]
+tests/test_fluent_gui_legacy.py::test_expected_classes_are_available PASSED [ 43%]
+tests/test_fluent_gui_legacy.py::test_expected_functions_are_available PASSED [ 46%]
+tests/test_fluent_gui_legacy.py::test_expected_constants_are_available PASSED [ 50%]
+tests/test_fluent_gui_legacy.py::test_main_window_can_instantiate PASSED [ 53%]
+tests/test_fluent_gui_legacy.py::test_fluent_gui_entrypoint_launches PASSED [ 56%]
+tests/test_gui_minimal.py::test_gui_minimal PASSED                       [ 59%]
+tests/test_gui_show.py::test_gui_show PASSED                             [ 62%]
+tests/test_results_table_model.py::test_results_table_model_creation PASSED [ 65%]
+tests/test_results_table_model.py::test_add_result_increases_row_count PASSED [ 68%]
+tests/test_results_table_model.py::test_data_retrieval PASSED            [ 71%]
+tests/test_results_table_model.py::test_status_color PASSED              [ 75%]
+tests/test_tracks_table_model.py::test_tracks_table_model_creation PASSED [ 78%]
+tests/test_tracks_table_model.py::test_update_data_populates_model PASSED [ 81%]
+tests/test_tracks_table_model.py::test_track_match_symbol_ok PASSED      [ 84%]
+tests/test_tracks_table_model.py::test_track_match_symbol_fail PASSED    [ 87%]
+tests/test_worker_manager.py::test_worker_manager_creation PASSED        [ 90%]
+tests/test_worker_manager.py::test_start_analysis_starts_thread_and_worker PASSED [ 93%]
+tests/test_worker_manager.py::test_cleanup_stops_thread PASSED           [ 96%]
+tests/test_worker_manager.py::test_signals_are_forwarded PASSED          [100%]
+
+=============================== warnings summary ===============================
+<frozen importlib._bootstrap>:488
+<frozen importlib._bootstrap>:488
+  <frozen importlib._bootstrap>:488: DeprecationWarning: builtin type SwigPyPacked has no __module__ attribute
+
+<frozen importlib._bootstrap>:488
+<frozen importlib._bootstrap>:488
+  <frozen importlib._bootstrap>:488: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
+
+<frozen importlib._bootstrap>:488
+  <frozen importlib._bootstrap>:488: DeprecationWarning: builtin type swigvarlink has no __module__ attribute
+
+tests/test_config.py::test_config
+  /home/unix/.local/lib/python3.12/site-packages/_pytest/python.py:161: PytestReturnNotNoneWarning: Test functions should return None, but tests/test_config.py::test_config returned <class 'bool'>.
+  Did you mean to use `assert` instead of `return`?
+  See https://docs.pytest.org/en/stable/how-to/assert.html#return-not-none for more information.
+    warnings.warn(
+
+tests/test_gui_minimal.py::test_gui_minimal
+  /home/unix/.local/lib/python3.12/site-packages/_pytest/python.py:161: PytestReturnNotNoneWarning: Test functions should return None, but tests/test_gui_minimal.py::test_gui_minimal returned <class 'bool'>.
+  Did you mean to use `assert` instead of `return`?
+  See https://docs.pytest.org/en/stable/how-to/assert.html#return-not-none for more information.
+    warnings.warn(
+
+tests/test_gui_show.py::test_gui_show
+  /home/unix/.local/lib/python3.12/site-packages/_pytest/python.py:161: PytestReturnNotNoneWarning: Test functions should return None, but tests/test_gui_show.py::test_gui_show returned <class 'int'>.
+  Did you mean to use `assert` instead of `return`?
+  See https://docs.pytest.org/en/stable/how-to/assert.html#return-not-none for more information.
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+================ 32 passed, 79 deselected, 8 warnings in 7.57s =================
+sys:1: DeprecationWarning: builtin type swigvarlink has no __module__ attribute
+Name                         Stmts   Miss  Cover
+------------------------------------------------
+core/domain/__init__.py          0      0   100%
+core/domain/comparison.py       37      1    97%
+services/__init__.py             0      0   100%
+services/export_service.py      33      2    94%
+------------------------------------------------
+TOTAL                           70      3    96%
+Running Ruff lint checks...
+All checks passed!
+Running mypy in strict mode...
+audio_utils.py:15: error: Unused "type: ignore" comment  [unused-ignore]
+pdf_viewer.py:19: error: Function is missing a type annotation for one or more arguments  [no-untyped-def]
+ui/theme.py:16: error: "QCoreApplication" has no attribute "style"  [attr-defined]
+ui/theme.py:22: error: Returning Any from function declared to return "QIcon"  [no-any-return]
+ui/models/tracks_table_model.py:31: error: Function is missing a return type annotation  [no-untyped-def]
+ui/models/tracks_table_model.py:39: error: Function is missing a return type annotation  [no-untyped-def]
+ui/models/tracks_table_model.py:39: note: Error code "no-untyped-def" not covered by "type: ignore" comment
+ui/models/tracks_table_model.py:44: error: Function is missing a return type annotation  [no-untyped-def]
+ui/models/tracks_table_model.py:44: note: Error code "no-untyped-def" not covered by "type: ignore" comment
+ui/models/tracks_table_model.py:47: error: Function is missing a return type annotation  [no-untyped-def]
+ui/models/tracks_table_model.py:47: note: Error code "no-untyped-def" not covered by "type: ignore" comment
+ui/models/tracks_table_model.py:73: error: Item "QCoreApplication" of "QCoreApplication | None" has no attribute "palette"  [union-attr]
+ui/models/tracks_table_model.py:73: error: Item "None" of "QCoreApplication | None" has no attribute "palette"  [union-attr]
+ui/models/tracks_table_model.py:78: error: "type[QPalette]" has no attribute "Base"  [attr-defined]
+ui/models/tracks_table_model.py:79: error: "type[QPalette]" has no attribute "AlternateBase"  [attr-defined]
+ui/models/tracks_table_model.py:99: error: Function is missing a return type annotation  [no-untyped-def]
+ui/models/tracks_table_model.py:154: error: Function is missing a return type annotation  [no-untyped-def]
+ui/models/tracks_table_model.py:176: error: Function is missing a return type annotation  [no-untyped-def]
+ui/models/tracks_table_model.py:176: note: Error code "no-untyped-def" not covered by "type: ignore" comment
+ui/models/tracks_table_model.py:176: error: Function is missing a type annotation for one or more arguments  [no-untyped-def]
+ui/models/tracks_table_model.py:39: error: Unused "type: ignore" comment  [unused-ignore]
+ui/models/tracks_table_model.py:44: error: Unused "type: ignore" comment  [unused-ignore]
+ui/models/tracks_table_model.py:47: error: Unused "type: ignore" comment  [unused-ignore]
+ui/models/tracks_table_model.py:176: error: Unused "type: ignore" comment  [unused-ignore]
+ui/models/results_table_model.py:43: error: Function is missing a return type annotation  [no-untyped-def]
+ui/models/results_table_model.py:43: note: Error code "no-untyped-def" not covered by "type: ignore" comment
+ui/models/results_table_model.py:109: error: Function is missing a return type annotation  [no-untyped-def]
+ui/models/results_table_model.py:109: note: Error code "no-untyped-def" not covered by "type: ignore" comment
+ui/models/results_table_model.py:109: error: Function is missing a type annotation for one or more arguments  [no-untyped-def]
+ui/models/results_table_model.py:37: error: Unused "type: ignore" comment  [unused-ignore]
+ui/models/results_table_model.py:40: error: Unused "type: ignore" comment  [unused-ignore]
+ui/models/results_table_model.py:43: error: Unused "type: ignore" comment  [unused-ignore]
+ui/models/results_table_model.py:109: error: Unused "type: ignore" comment  [unused-ignore]
+services/export_service.py:39: error: Unused "type: ignore" comment  [unused-ignore]
+services/export_service.py:42: error: "object" has no attribute "append"  [attr-defined]
+waveform_viewer.py:24: error: Cannot assign to a type  [misc]
+waveform_viewer.py:24: note: Error code "misc" not covered by "type: ignore" comment
+waveform_viewer.py:25: error: Cannot assign to a type  [misc]
+waveform_viewer.py:25: note: Error code "misc" not covered by "type: ignore" comment
+waveform_viewer.py:48: error: Function is missing a return type annotation  [no-untyped-def]
+waveform_viewer.py:48: error: Function is missing a type annotation for one or more arguments  [no-untyped-def]
+waveform_viewer.py:58: error: Class cannot subclass "AxisItem" (has type "Any")  [misc]
+waveform_viewer.py:61: error: Function is missing a type annotation  [no-untyped-def]
+waveform_viewer.py:77: error: Function is missing a type annotation for one or more arguments  [no-untyped-def]
+waveform_viewer.py:97: error: Missing type parameters for generic type "Dict"  [type-arg]
+waveform_viewer.py:501: error: Need type annotation for "peaks" (hint: "peaks: list[<type>] = ...")  [var-annotated]
+waveform_viewer.py:589: error: Missing type parameters for generic type "Dict"  [type-arg]
+waveform_viewer.py:632: error: Need type annotation for "wav_end_times"  [var-annotated]
+waveform_viewer.py:673: error: Function is missing a type annotation for one or more arguments  [no-untyped-def]
+waveform_viewer.py:803: error: Function is missing a type annotation for one or more arguments  [no-untyped-def]
+waveform_viewer.py:817: error: Function is missing a type annotation for one or more arguments  [no-untyped-def]
+waveform_viewer.py:834: error: Function is missing a type annotation for one or more arguments  [no-untyped-def]
+waveform_viewer.py:1110: error: Function is missing a type annotation for one or more arguments  [no-untyped-def]
+waveform_viewer.py:1131: error: Function is missing a type annotation for one or more arguments  [no-untyped-def]
+services/analysis_service.py:51: error: Redundant cast to "dict[str, list[TrackInfo]]"  [redundant-cast]
+services/analysis_service.py:50: error: Unused "type: ignore" comment  [unused-ignore]
+settings_page.py:31: error: Function is missing a type annotation for one or more arguments  [no-untyped-def]
+settings_page.py:130: error: Cannot assign to a method  [method-assign]
+settings_page.py:130: error: Incompatible types in assignment (expression has type "QScrollArea", variable has type overloaded function)  [assignment]
+settings_page.py:131: error: overloaded function has no attribute "setFrameShape"  [attr-defined]
+settings_page.py:132: error: overloaded function has no attribute "setWidgetResizable"  [attr-defined]
+settings_page.py:133: error: Argument 1 to "addWidget" of "QBoxLayout" has incompatible type overloaded function; expected "QWidget | None"  [arg-type]
+settings_page.py:136: error: overloaded function has no attribute "setWidget"  [attr-defined]
+settings_page.py:165: error: Argument 1 to "findText" of "QComboBox" has incompatible type "Any | ConfigValue | str"; expected "str | None"  [arg-type]
+settings_page.py:281: error: Argument 1 to "findText" of "QComboBox" has incompatible type "Any | ConfigValue | str"; expected "str | None"  [arg-type]
+settings_page.py:336: error: Argument 1 to "setValue" of "QAbstractSlider" has incompatible type "Any | ConfigValue | int"; expected "int"  [arg-type]
+settings_page.py:359: error: Argument 1 to "setValue" of "QAbstractSlider" has incompatible type "Any | ConfigValue | int"; expected "int"  [arg-type]
+settings_page.py:451: error: "type[QMessageBox]" has no attribute "Yes"  [attr-defined]
+settings_page.py:451: error: "type[QMessageBox]" has no attribute "No"  [attr-defined]
+settings_page.py:452: error: "type[QMessageBox]" has no attribute "No"  [attr-defined]
+settings_page.py:455: error: "type[QMessageBox]" has no attribute "Yes"  [attr-defined]
+settings_page.py:500: error: Argument 1 to "findText" of "QComboBox" has incompatible type "Any | ConfigValue | str"; expected "str | None"  [arg-type]
+settings_page.py:506: error: Argument 1 to "findText" of "QComboBox" has incompatible type "Any | ConfigValue | str"; expected "str | None"  [arg-type]
+settings_page.py:513: error: Argument 1 to "setValue" of "QAbstractSlider" has incompatible type "Any | ConfigValue | int"; expected "int"  [arg-type]
+settings_page.py:518: error: Argument 1 to "setValue" of "QAbstractSlider" has incompatible type "Any | ConfigValue | int"; expected "int"  [arg-type]
+settings_page.py:544: error: Function is missing a type annotation for one or more arguments  [no-untyped-def]
+settings_page.py:550: error: Function is missing a type annotation  [no-untyped-def]
+ui/dialogs/settings_dialog.py:21: error: Function is missing a type annotation for one or more arguments  [no-untyped-def]
+ui/main_window.py:57: error: Call to untyped function "setup_menu_bar" in typed context  [no-untyped-call]
+ui/main_window.py:129: error: Call to untyped function "setup_tables" in typed context  [no-untyped-call]
+ui/main_window.py:130: error: Call to untyped function "connect_signals" in typed context  [no-untyped-call]
+ui/main_window.py:134: error: Function is missing a return type annotation  [no-untyped-def]
+ui/main_window.py:134: note: Use "-> None" if function does not return a value
+ui/main_window.py:140: error: Item "None" of "QHeaderView | None" has no attribute "resizeSection"  [union-attr]
+ui/main_window.py:144: error: Item "None" of "QHeaderView | None" has no attribute "resizeSection"  [union-attr]
+ui/main_window.py:146: error: Function is missing a return type annotation  [no-untyped-def]
+ui/main_window.py:150: error: "setattr" does not return a value (it only ever returns None)  [func-returns-value]
+ui/main_window.py:150: error: Call to untyped function "_apply_header_resizes" in typed context  [no-untyped-call]
+ui/main_window.py:156: error: Function is missing a type annotation  [no-untyped-def]
+ui/main_window.py:158: error: Call to untyped function "_schedule_header_resizes" in typed context  [no-untyped-call]
+ui/main_window.py:159: error: Call to untyped function "_schedule_header_resizes" in typed context  [no-untyped-call]
+ui/main_window.py:162: error: Call to untyped function "_schedule_header_resizes" in typed context  [no-untyped-call]
+ui/main_window.py:164: error: Item "None" of "QWindow | None" has no attribute "screenChanged"  [union-attr]
+ui/main_window.py:165: error: Call to untyped function "_on_screen_changed" in typed context  [no-untyped-call]
+ui/main_window.py:165: error: Item "None" of "QWindow | None" has no attribute "screen"  [union-attr]
+ui/main_window.py:169: error: Function is missing a return type annotation  [no-untyped-def]
+ui/main_window.py:177: error: Function is missing a return type annotation  [no-untyped-def]
+ui/main_window.py:177: note: Use "-> None" if function does not return a value
+ui/main_window.py:181: error: Item "None" of "QHeaderView | None" has no attribute "setStretchLastSection"  [union-attr]
+ui/main_window.py:182: error: Item "None" of "QHeaderView | None" has no attribute "setSectionResizeMode"  [union-attr]
+ui/main_window.py:183: error: Item "None" of "QHeaderView | None" has no attribute "setSectionResizeMode"  [union-attr]
+ui/main_window.py:184: error: Item "None" of "QHeaderView | None" has no attribute "setSectionResizeMode"  [union-attr]
+ui/main_window.py:185: error: Item "None" of "QHeaderView | None" has no attribute "setSectionResizeMode"  [union-attr]
+ui/main_window.py:186: error: Item "None" of "QHeaderView | None" has no attribute "setSectionResizeMode"  [union-attr]
+ui/main_window.py:187: error: Item "None" of "QHeaderView | None" has no attribute "setSectionResizeMode"  [union-attr]
+ui/main_window.py:188: error: Item "None" of "QHeaderView | None" has no attribute "setSectionResizeMode"  [union-attr]
+ui/main_window.py:189: error: Item "None" of "QHeaderView | None" has no attribute "setSectionResizeMode"  [union-attr]
+ui/main_window.py:193: error: Item "None" of "QHeaderView | None" has no attribute "font"  [union-attr]
+ui/main_window.py:195: error: Item "None" of "QHeaderView | None" has no attribute "setFont"  [union-attr]
+ui/main_window.py:198: error: Item "None" of "QHeaderView | None" has no attribute "font"  [union-attr]
+ui/main_window.py:200: error: Item "None" of "QHeaderView | None" has no attribute "setFont"  [union-attr]
+ui/main_window.py:201: error: Item "None" of "QHeaderView | None" has no attribute "setSectionResizeMode"  [union-attr]
+ui/main_window.py:202: error: Item "None" of "QHeaderView | None" has no attribute "setSectionResizeMode"  [union-attr]
+ui/main_window.py:203: error: Item "None" of "QHeaderView | None" has no attribute "setSectionResizeMode"  [union-attr]
+ui/main_window.py:204: error: Item "None" of "QHeaderView | None" has no attribute "setSectionResizeMode"  [union-attr]
+ui/main_window.py:205: error: Item "None" of "QHeaderView | None" has no attribute "setSectionResizeMode"  [union-attr]
+ui/main_window.py:206: error: Item "None" of "QHeaderView | None" has no attribute "setSectionResizeMode"  [union-attr]
+ui/main_window.py:207: error: Item "None" of "QHeaderView | None" has no attribute "setSectionResizeMode"  [union-attr]
+ui/main_window.py:208: error: Item "None" of "QHeaderView | None" has no attribute "setSectionResizeMode"  [union-attr]
+ui/main_window.py:209: error: Item "None" of "QHeaderView | None" has no attribute "setStretchLastSection"  [union-attr]
+ui/main_window.py:217: error: Function is missing a return type annotation  [no-untyped-def]
+ui/main_window.py:230: error: Function is missing a type annotation  [no-untyped-def]
+ui/main_window.py:240: error: Call to untyped function (unknown) in typed context  [no-untyped-call]
+ui/main_window.py:243: error: Function is missing a type annotation  [no-untyped-def]
+ui/main_window.py:246: error: Call to untyped function (unknown) in typed context  [no-untyped-call]
+ui/main_window.py:248: error: Function is missing a type annotation  [no-untyped-def]
+ui/main_window.py:252: error: Function is missing a return type annotation  [no-untyped-def]
+ui/main_window.py:252: note: Use "-> None" if function does not return a value
+ui/main_window.py:261: error: Function is missing a return type annotation  [no-untyped-def]
+ui/main_window.py:273: error: Function is missing a return type annotation  [no-untyped-def]
+ui/main_window.py:273: note: Use "-> None" if function does not return a value
+ui/main_window.py:275: error: Item "None" of "QMenuBar | None" has no attribute "clear"  [union-attr]
+ui/main_window.py:276: error: Item "None" of "QMenuBar | None" has no attribute "addMenu"  [union-attr]
+ui/main_window.py:277: error: Item "None" of "QMenu | Any | None" has no attribute "addAction"  [union-attr]
+ui/main_window.py:278: error: Item "None" of "QAction | Any | None" has no attribute "triggered"  [union-attr]
+ui/main_window.py:280: error: Name "on_filter_changed" already defined on line 169  [no-redef]
+ui/main_window.py:280: error: Function is missing a return type annotation  [no-untyped-def]
+ui/main_window.py:288: error: Function is missing a return type annotation  [no-untyped-def]
+ui/main_window.py:296: error: Function is missing a return type annotation  [no-untyped-def]
+ui/main_window.py:301: error: Need type annotation for "all_results"  [var-annotated]
+ui/main_window.py:319: error: Function is missing a return type annotation  [no-untyped-def]
+ui/main_window.py:323: error: Function is missing a return type annotation  [no-untyped-def]
+ui/main_window.py:337: error: Function is missing a return type annotation  [no-untyped-def]
+ui/main_window.py:394: error: Argument 1 to "set_pdf_tracks" of "WaveformEditorDialog" has incompatible type "list[TrackInfo]"; expected "list[dict[Any, Any]]"  [arg-type]
+ui/main_window.py:394: error: Argument 2 to "set_pdf_tracks" of "WaveformEditorDialog" has incompatible type "list[WavInfo]"; expected "list[dict[Any, Any]]"  [arg-type]
+ui/main_window.py:404: error: Function is missing a return type annotation  [no-untyped-def]
+ui/main_window.py:404: note: Use "-> None" if function does not return a value
+ui/main_window.py:411: error: Function is missing a return type annotation  [no-untyped-def]
+ui/main_window.py:411: note: Use "-> None" if function does not return a value
+ui/main_window.py:434: error: Function is missing a return type annotation  [no-untyped-def]
+ui/main_window.py:434: note: Use "-> None" if function does not return a value
+ui/main_window.py:152: error: Unused "type: ignore" comment  [unused-ignore]
+app.py:37: error: Function is missing a return type annotation  [no-untyped-def]
+fluent_gui.py:125: error: Function is missing a return type annotation  [no-untyped-def]
+fluent_gui.py:130: error: Function is missing a type annotation  [no-untyped-def]
+fluent_gui.py:135: error: Function is missing a type annotation  [no-untyped-def]
+fluent_gui.py:140: error: Function is missing a type annotation  [no-untyped-def]
+fluent_gui.py:148: error: Function is missing a type annotation  [no-untyped-def]
+fluent_gui.py:157: error: Function is missing a type annotation  [no-untyped-def]
+fluent_gui.py:170: error: Argument 1 to "load_gz_media_fonts" has incompatible type "QCoreApplication"; expected "QApplication"  [arg-type]
+fluent_gui.py:171: error: Argument 1 to "load_gz_media_stylesheet" has incompatible type "QCoreApplication"; expected "QApplication"  [arg-type]
+Found 146 errors in 13 files (checked 3 source files)
+[err] finalize.sh failed

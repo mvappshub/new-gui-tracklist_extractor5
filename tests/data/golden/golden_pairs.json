@@ -1,0 +1,9 @@
+{
+  "pairs": {
+    "12345": {
+      "pdf": "12345_tracklist.pdf",
+      "zip": "12345_masters.zip"
+    }
+  },
+  "skipped_count": 1
+}

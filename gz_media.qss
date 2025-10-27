@@ -1,0 +1,135 @@
+/* =========================
+  GZ Media Qt5 Stylesheet
+  ========================= */
+
+* {
+   font-family: "Poppins, Segoe UI, Arial, sans-serif";
+}
+
+QWidget {
+   background-color: #F3F4F6;
+   color: #1F2937;
+}
+
+/* Buttons */
+QPushButton {
+   background-color: #1F3B73;
+   color: white;
+   border: none;
+   border-radius: 8px;
+   padding: 8px 16px;
+}
+QPushButton:hover {
+   background-color: #0EA270;
+}
+QPushButton:pressed {
+   background-color: #173a7a;
+}
+QPushButton:disabled {
+   background-color: #9AA7C2;
+   color: #F0F0F0;
+}
+
+/* Labels */
+QLabel {
+   font-weight: 600;
+}
+
+/* Table styling */
+QTableView {
+   background: white;
+   gridline-color: #D0D7E2;
+   selection-background-color: #E5EFFF;
+   selection-color: #1F2937;
+   alternate-background-color: #FAFBFD;
+}
+QTableView::item {
+    padding: 4px;
+}
+QHeaderView::section {
+   background-color: #173A7A;
+   color: white;
+   padding: 8px;
+   border: none;
+   border-right: 1px solid #0F2B5A;
+   font-weight: 600;
+}
+QHeaderView::section:last {
+   border-right: none;
+}
+
+/* Status labels */
+.status-ok   { background-color: #10B981; color: white; }
+.status-warn { background-color: #F59E0B; color: white; }
+.status-fail { background-color: #EF4444; color: white; }
+
+/* Analysis state: ensure dark, readable status text on light backgrounds */
+QWidget[analysis-state="true"] QLabel {
+   color: #1F2937; /* GZ Dark */
+}
+
+/* === Main Layout & Toolbar === */
+QWidget#Main {
+   background-color: #F3F4F6;
+}
+
+QToolBar#MainToolbar {
+    background-color: #FFFFFF;
+    border: none;
+    border-bottom: 1px solid #D1D5DB;
+    padding: 8px 12px;
+    spacing: 16px;
+}
+
+QMainWindow[analysis-state="true"] QToolBar#MainToolbar {
+   background-color: #EFF6FF; /* Svetlejsi modra */
+}
+
+/* === Prominent Run Button === */
+QPushButton#RunButton {
+   background-color: #1F3B73; /* GZ Primary Blue */
+   color: white;
+   border: none;
+   border-radius: 6px;
+   padding: 8px 16px;
+   font-size: 10pt;
+   font-weight: 600;
+   min-width: 120px;
+}
+QPushButton#RunButton:hover { background-color: #173A7A; }
+QPushButton#RunButton:pressed { background-color: #0F2B5A; }
+QPushButton#RunButton:disabled { background-color: #9AA7C2; }
+
+/* === Status Elements === */
+QLabel#StatusLabel {
+   font-size: 9pt;
+   color: #6B7280;
+}
+QMainWindow[analysis-state="true"] QLabel#StatusLabel {
+   color: #1F2937;
+   font-weight: 500;
+}
+QProgressBar#ProgressBar {
+    border: none;
+    background-color: #E5E7EB;
+    max-height: 4px;
+    border-radius: 2px;
+}
+QProgressBar#ProgressBar::chunk {
+    background-color: #2563EB;
+    border-radius: 2px;
+}
+
+/* === Filter ComboBox === */
+QComboBox#FilterCombo {
+   min-width: 100px;
+}
+
+/* Fallback text for logo if image is missing */
+QLabel#gzLogo {
+   font-family: "Poppins, Segoe UI, Arial, sans-serif";
+   font-size: 12pt;
+   font-weight: 600;
+   color: #1E3A8A;
+   padding: 4px 8px;
+}

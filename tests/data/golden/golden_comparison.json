@@ -1,0 +1,68 @@
+[
+  {
+    "seq": 0,
+    "pdf_path": "dummy.pdf",
+    "zip_path": "dummy.zip",
+    "side": "A",
+    "mode": "tracks",
+    "status": "OK",
+    "pdf_tracks": [
+      {
+        "title": "Intro",
+        "side": "A",
+        "position": 1,
+        "duration_sec": 120
+      },
+      {
+        "title": "Song",
+        "side": "A",
+        "position": 2,
+        "duration_sec": 150
+      }
+    ],
+    "wav_tracks": [
+      {
+        "filename": "Side_A_01_intro.wav",
+        "duration_sec": 119.98,
+        "side": "A",
+        "position": 1
+      },
+      {
+        "filename": "Side_A_02_song.wav",
+        "duration_sec": 150.02,
+        "side": "A",
+        "position": 2
+      }
+    ],
+    "total_pdf_sec": 270,
+    "total_wav_sec": 270.0,
+    "total_difference": 0
+  },
+  {
+    "seq": 0,
+    "pdf_path": "dummy.pdf",
+    "zip_path": "dummy.zip",
+    "side": "B",
+    "mode": "side",
+    "status": "WARN",
+    "pdf_tracks": [
+      {
+        "title": "Ballad",
+        "side": "B",
+        "position": 1,
+        "duration_sec": 210
+      }
+    ],
+    "wav_tracks": [
+      {
+        "filename": "Side_B_01_ballad.wav",
+        "duration_sec": 206.9,
+        "side": "B",
+        "position": 1
+      }
+    ],
+    "total_pdf_sec": 210,
+    "total_wav_sec": 206.9,
+    "total_difference": -3
+  }
+]
