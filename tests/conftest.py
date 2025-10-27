@@ -3,6 +3,8 @@ from __future__ import annotations
 import contextlib
 import math
 import zipfile
+import os
+import socket
 from pathlib import Path
 from typing import Generator, Tuple
 
@@ -15,6 +17,44 @@ from PyQt6.QtWidgets import QApplication
 import config as config_module
 from adapters.audio.fake_mode_detector import FakeAudioModeDetector
 from core.models.settings import IdExtractionSettings, ToleranceSettings
+
+
+@pytest.fixture(scope="session", autouse=True)
+def disable_network_access() -> Generator[None, None, None]:
+    """Block outbound network usage during tests."""
+
+    from pytest import MonkeyPatch
+
+    monkeypatch = MonkeyPatch()
+
+    def _blocked(*args, **kwargs):
+        raise RuntimeError("Network access is disabled during tests")
+
+    for attr in ("socket", "create_connection", "getaddrinfo"):
+        if hasattr(socket, attr):
+            monkeypatch.setattr(socket, attr, _blocked)
+
+    try:
+        yield
+    finally:
+        monkeypatch.undo()
+
+
+@pytest.fixture(scope="session", autouse=True)
+def unset_ai_api_keys() -> Generator[None, None, None]:
+    """Ensure AI API keys are cleared so tests cannot hit external services."""
+
+    from pytest import MonkeyPatch
+
+    monkeypatch = MonkeyPatch()
+    for key in ("OPENAI_API_KEY", "OPENROUTER_API_KEY"):
+        if key in os.environ:
+            monkeypatch.delenv(key, raising=False)
+    try:
+        yield
+    finally:
+        monkeypatch.undo()
+
 
 @pytest.fixture(scope="session")
 def qapp() -> Generator[QApplication, None, None]:
