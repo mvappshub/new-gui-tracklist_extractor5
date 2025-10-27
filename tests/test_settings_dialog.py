@@ -15,7 +15,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-pytestmark = pytest.mark.gui
+pytestmark = [pytest.mark.gui, pytest.mark.usefixtures("isolated_config")]
 
 # Add current directory to path for imports
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -27,9 +27,6 @@ from PyQt6.QtTest import QTest
 from config import cfg, load_config, save_config, resolve_path, AppConfig
 from ui.dialogs.settings_dialog import SettingsDialog
 from settings_page import SettingsPage
-
-# Global test application instance
-_test_app = None
 
 
 class MockMainWindow(QMainWindow):
@@ -74,14 +71,9 @@ class MockMainWindow(QMainWindow):
             raise
 
 
-def test_settings_dialog_creation():
+def test_settings_dialog_creation(qapp: QApplication):
     """Test that SettingsDialog can be created successfully."""
     print("Testing SettingsDialog creation...")
-
-    app = QApplication.instance()
-    if app is None:
-        global _test_app
-        _test_app = QApplication(sys.argv)
 
     try:
         # Create a mock parent window
@@ -115,14 +107,9 @@ def test_settings_dialog_creation():
         return False
 
 
-def test_settings_dialog_menu_action():
+def test_settings_dialog_menu_action(qapp: QApplication):
     """Test that Settings dialog opens via Edit -> Settings... menu."""
     print("Testing Settings dialog via Edit -> Settings... menu...")
-
-    app = QApplication.instance()
-    if app is None:
-        global _test_app
-        _test_app = QApplication(sys.argv)
 
     try:
         # Create a mock parent window
@@ -173,14 +160,9 @@ def test_settings_dialog_menu_action():
         return False
 
 
-def test_settings_dialog_shortcut():
+def test_settings_dialog_shortcut(qapp: QApplication):
     """Test that Settings dialog opens via Ctrl+, shortcut."""
     print("Testing Settings dialog via Ctrl+, shortcut...")
-
-    app = QApplication.instance()
-    if app is None:
-        global _test_app
-        _test_app = QApplication(sys.argv)
 
     try:
         # Create a mock parent window
@@ -383,14 +365,9 @@ def test_path_directory_validation():
         return False
 
 
-def test_settings_dialog_save_button():
+def test_settings_dialog_save_button(qapp: QApplication):
     """Test that the Save button in SettingsDialog works correctly."""
     print("Testing SettingsDialog Save button functionality...")
-
-    app = QApplication.instance()
-    if app is None:
-        global _test_app
-        _test_app = QApplication(sys.argv)
 
     try:
         # Create a temporary directory for testing
@@ -444,7 +421,7 @@ def test_settings_dialog_save_button():
         return False
 
 
-def test_no_pdf_directory_errors():
+def test_no_pdf_directory_errors(qapp: QApplication):
     """Test that no 'PDF path is not a directory' errors occur during normal operation."""
     print("Testing for absence of 'PDF path is not a directory' errors...")
 
@@ -479,11 +456,6 @@ def test_no_pdf_directory_errors():
             assert Path(wav_path).is_dir()
 
             # Test MainWindow creation with valid paths
-            app = QApplication.instance()
-            if app is None:
-                global _test_app
-                _test_app = QApplication(sys.argv)
-
             # Import MainWindow properly
             from ui import MainWindow
             

@@ -2,11 +2,13 @@ from __future__ import annotations
 
 import contextlib
 import math
-import zipfile
 import os
+import re
 import socket
+import uuid
+import zipfile
 from pathlib import Path
-from typing import Generator, Tuple
+from typing import Callable, Generator, Tuple
 
 import numpy as np
 import pytest
@@ -57,6 +59,40 @@ def unset_ai_api_keys() -> Generator[None, None, None]:
 
 
 @pytest.fixture(scope="session")
+def isolated_qsettings(tmp_path_factory) -> Generator[Callable[[str | None], Path], None, None]:
+    """Provide session-level helper to sandbox QSettings into temp files."""
+
+    original_format = QSettings.defaultFormat()
+
+    def _current_dir(scope: QSettings.Scope) -> Path:
+        settings = QSettings(QSettings.Format.IniFormat, scope, config_module.DEFAULT_SETTINGS_ORG, config_module.DEFAULT_SETTINGS_APP)
+        return Path(settings.fileName()).parent
+
+    original_user_dir = _current_dir(QSettings.Scope.UserScope)
+    original_system_dir = _current_dir(QSettings.Scope.SystemScope)
+
+    def _sanitize(token: str) -> str:
+        cleaned = re.sub(r"[^A-Za-z0-9_.-]", "_", token)
+        return cleaned[:64] if cleaned else uuid.uuid4().hex
+
+    def _activate(token: str | None = None) -> Path:
+        key = token or uuid.uuid4().hex
+        safe_key = _sanitize(key)
+        settings_dir = Path(tmp_path_factory.mktemp(f"qsettings-{safe_key}"))
+        QSettings.setDefaultFormat(QSettings.Format.IniFormat)
+        QSettings.setPath(QSettings.Format.IniFormat, QSettings.Scope.UserScope, str(settings_dir))
+        QSettings.setPath(QSettings.Format.IniFormat, QSettings.Scope.SystemScope, str(settings_dir))
+        return settings_dir
+
+    try:
+        yield _activate
+    finally:
+        QSettings.setDefaultFormat(original_format)
+        QSettings.setPath(QSettings.Format.IniFormat, QSettings.Scope.UserScope, str(original_user_dir))
+        QSettings.setPath(QSettings.Format.IniFormat, QSettings.Scope.SystemScope, str(original_system_dir))
+
+
+@pytest.fixture(scope="session")
 def qapp() -> Generator[QApplication, None, None]:
     """Provide a QApplication instance for Qt tests."""
     app = QApplication.instance()
@@ -76,34 +112,23 @@ def qapp() -> Generator[QApplication, None, None]:
 
 
 @pytest.fixture
-def isolated_config(monkeypatch, tmp_path) -> Generator[config_module.AppConfig, None, None]:
+def isolated_config(monkeypatch, isolated_qsettings, request) -> Generator[config_module.AppConfig, None, None]:
     """Provide an isolated configuration with temporary QSettings storage."""
     original_cfg = config_module.cfg
-    org_name = original_cfg.settings.organizationName()
-    app_name = original_cfg.settings.applicationName()
-
-    user_settings = QSettings(QSettings.Format.IniFormat, QSettings.Scope.UserScope, org_name, app_name)
-    system_settings = QSettings(QSettings.Format.IniFormat, QSettings.Scope.SystemScope, org_name, app_name)
-    original_user_dir = Path(user_settings.fileName()).parent
-    original_system_dir = Path(system_settings.fileName()).parent
-
-    settings_dir = tmp_path / "settings"
-    settings_dir.mkdir()
-    original_format = QSettings.defaultFormat()
-    QSettings.setDefaultFormat(QSettings.Format.IniFormat)
-    QSettings.setPath(QSettings.Format.IniFormat, QSettings.Scope.UserScope, str(settings_dir))
-    QSettings.setPath(QSettings.Format.IniFormat, QSettings.Scope.SystemScope, str(settings_dir))
-
+    settings_dir = isolated_qsettings(f"{request.node.nodeid}-config")
     test_cfg = config_module.AppConfig()
     test_cfg.reset_to_defaults()
+    test_cfg.file = settings_dir / "settings.json"
     monkeypatch.setattr(config_module, "cfg", test_cfg)
+    if hasattr(request.module, "cfg"):
+        monkeypatch.setattr(request.module, "cfg", test_cfg, raising=False)
 
     yield test_cfg
 
     config_module.cfg = original_cfg
-    QSettings.setDefaultFormat(original_format)
-    QSettings.setPath(QSettings.Format.IniFormat, QSettings.Scope.UserScope, str(original_user_dir))
-    QSettings.setPath(QSettings.Format.IniFormat, QSettings.Scope.SystemScope, str(original_system_dir))
+    with contextlib.suppress(AttributeError):
+        test_cfg.settings.value.clear()
+        test_cfg.settings.value.sync()
 
 
 def _generate_sine_wave(duration: float, sample_rate: int) -> np.ndarray:

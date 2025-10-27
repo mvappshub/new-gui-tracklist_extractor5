@@ -3,28 +3,26 @@
 
 import sys
 import os
-from unittest.mock import patch
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 import pytest
-from PyQt6.QtCore import QTimer
 from ui import MainWindow, AnalysisWorkerManager, load_tolerance_settings, load_export_settings, load_theme_settings, load_worker_settings, load_id_extraction_settings
-from config import cfg, ConfigLoader
+from config import AppConfig
 from adapters.ui.null_waveform_viewer import NullWaveformViewer
 
 pytestmark = pytest.mark.gui
 
-def test_gui_show(qapp, qtbot):
+
+def test_gui_show(qapp, qtbot, isolated_config: AppConfig):
     """Test GUI show functionality."""
     print("Testing GUI show functionality...")
 
-    # Mock dependencies for MainWindow constructor
-    loader = ConfigLoader(cfg.settings)
-    tolerance_settings = load_tolerance_settings(loader=loader)
-    export_settings = load_export_settings(loader=loader)
-    theme_settings = load_theme_settings(loader=loader)
-    worker_settings = load_worker_settings(loader=loader)
-    id_extraction_settings = load_id_extraction_settings(loader=loader)
+    # Mock dependencies for MainWindow constructor using isolated config
+    tolerance_settings = load_tolerance_settings(cfg=isolated_config)
+    export_settings = load_export_settings(cfg=isolated_config)
+    theme_settings = load_theme_settings(cfg=isolated_config)
+    worker_settings = load_worker_settings(cfg=isolated_config)
+    id_extraction_settings = load_id_extraction_settings(cfg=isolated_config)
 
     worker_manager = AnalysisWorkerManager(
         worker_settings=worker_settings,
@@ -40,19 +38,20 @@ def test_gui_show(qapp, qtbot):
             theme_settings=theme_settings,
             waveform_viewer=NullWaveformViewer(),
             worker_manager=worker_manager,
-            settings_filename=cfg.file,
-            app_config=cfg,
+            settings_filename=isolated_config.file,
+            app_config=isolated_config,
         )
         qtbot.addWidget(window)
         print("MainWindow created successfully")
 
         print("Showing MainWindow...")
         window.show()
+        qtbot.waitUntil(window.isVisible, timeout=1000)
+        qtbot.wait(100)
         print("MainWindow shown successfully")
 
-        # Allow the event loop to run briefly and then exit
-        QTimer.singleShot(100, qapp.quit)
-        qapp.exec()
+        window.close()
+        qtbot.waitUntil(lambda: not window.isVisible(), timeout=1000)
 
     except Exception as e:
         print(f"GUI show error: {e}")

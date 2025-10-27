@@ -54,13 +54,13 @@
 - [x] 6.6 Vytvořit `tests/snapshots/test_results_table_model_snapshot.py` pro snapshot testování `ResultsTableModel` (obsah: `(header, renderer_id)`).
 
 ## 7. F-PRE7: GUI Tests Unify (no event loop)
-- [ ] 7.1 Pro všechny GUI testy, které dříve používaly `app.exec()`, nahradit volání za `qtbot.waitUntil(lambda: condition, timeout=...)` nebo podobné mechanismy z `pytest-qt` pro explicitní řízení event loopu a čekání na stavy.
-- [ ] 7.2 Ověřit, že žádný GUI test neobsahuje `app.exec()` nebo `QApplication(sys.argv)`.
+- [x] 7.1 Pro všechny GUI testy, které dříve používaly `app.exec()`, nahradit volání za `qtbot.waitUntil(lambda: condition, timeout=...)` nebo podobné mechanismy z `pytest-qt` pro explicitní řízení event loopu a čekání na stavy.
+- [x] 7.2 Ověřit, že žádný GUI test neobsahuje `app.exec()` nebo `QApplication(sys.argv)`.
 
 ## 8. F-PRE8: QSettings Isolation & Resources Build
-- [ ] 8.1 Vytvořit `tests/conftest.py` fixture `isolated_qsettings` (session-scoped) pro poskytování izolovaných `QSettings` instancí pro každý test, s použitím dočasných souborů.
-- [ ] 8.2 Zajistit, že všechny testy používající `QSettings` přebírají tuto fixture.
-- [ ] 8.3 Implementovat CI krok, který ověří existenci a správnou kompilaci `_icons_rc.py` a zabrání tichému fallbacku na chybějící resources.
+- [x] 8.1 Vytvořit `tests/conftest.py` fixture `isolated_qsettings` (session-scoped) pro poskytování izolovaných `QSettings` instancí pro každý test, s použitím dočasných souborů.
+- [x] 8.2 Zajistit, že všechny testy používající `QSettings` přebírají tuto fixture.
+- [x] 8.3 Implementovat CI krok, který ověří existenci a správnou kompilaci `_icons_rc.py` a zabrání tichému fallbacku na chybějící resources.
 
 ## 9. F-PRE9: Worker Contract & Export Negative I/O
 - [ ] 9.1 Vytvořit `tests/test_worker_contracts.py` pro testování veřejného API workeru (`is_running() -> bool`, `state() -> Enum(IDLE,RUNNING,FINISHED,FAILED)`, signál `state_changed(WorkerState)`).
