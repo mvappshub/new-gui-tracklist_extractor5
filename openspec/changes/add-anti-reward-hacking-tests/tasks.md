@@ -1,5 +1,5 @@
 ## 0. F-PRE0: Mandatory Test Safeguards
-- [ ] 0.0.1 **Automatické verzování:** Commit a push aktuálního stavu kódu s popisem "Pre-F-PRE0: Stabilní stav před implementací anti-reward-hacking testů."
+- [x] 0.0.1 **Automatické verzování:** Commit a push aktuálního stavu kódu s popisem "Pre-F-PRE0: Stabilní stav před implementací anti-reward-hacking testů."
 - [x] 0.1 Vytvořit `tests/conftest.py` fixture `disable_network_access` (autouse, session scope) pro blokování síťových volání (např. `socket.socket`).
 - [x] 0.2 Vytvořit `tests/conftest.py` fixture `unset_ai_api_keys` (autouse, session scope) pro nastavení `OPENAI_API_KEY=None` a `OPENROUTER_API_KEY=None` v testovacím prostředí.
 
@@ -66,7 +66,7 @@
 - [x] 9.1 Vytvořit `tests/test_worker_contracts.py` pro testování veřejného API workeru (`is_running() -> bool`, `state() -> Enum(IDLE,RUNNING,FINISHED,FAILED)`, signál `state_changed(WorkerState)`).
 - [x] 9.2 Test `test_export_missing_directory`: zavolat export s neexistujícím cílovým adresářem, ověřit, že adresář je vytvořen.
 - [x] 9.3 Test `test_export_write_error`: mockovat `open()` nebo `shutil.copy()` tak, aby vyhodily `IOError` nebo `PermissionError` během exportu, ověřit, že export vyhodí příslušnou výjimku a necrashne.
-- [ ] 9.4 **Automatické verzování:** Po úspěšném dokončení a ověření všech testů pro F-PRE0 až F-PRE9, commit a push s popisem "Post-F-PRE9: Všechny anti-reward-hacking testy implementovány a ověřeny."
+- [x] 9.4 **Automatické verzování:** Po úspěšném dokončení a ověření všech testů pro F-PRE0 až F-PRE9, commit a push s popisem "Post-F-PRE9: Všechny anti-reward-hacking testy implementovány a ověřeny."
 
 ## 6. Testing Strategy Spec
 - [x] 6.1 Vytvořit `openspec/changes/add-anti-reward-hacking-tests/specs/testing/spec.md`.
@@ -77,13 +77,13 @@
 - [x] 7.1 Spustit `pytest tests/test_ai_contracts.py tests/test_pdf_extractor_contract.py tests/test_parser_sanity.py tests/test_gui_simple.py tests/test_architecture.py tests/test_worker_contracts.py tests/snapshots/test_analysis_status_snapshot.py tests/snapshots/test_results_table_model_snapshot.py` a ověřit že všechny testy projdou.
 - [x] 7.2 Spustit `openspec validate add-anti-reward-hacking-tests --strict` a opravit případné chyby.
 - [x] 7.3 Aktualizovat `tests/README.md` s odkazem na nové contract/sanity testy a vysvětlením nových kategorií testů.
-- [ ] 7.4 Požádat o review proposal před implementací.
-- [ ] 7.5 Implementovat CI kroky v pořadí "fail-fast":
-    - [ ] Invarianty grepy (0 nálezů)
-    - [ ] Kontrola resources (`_icons_rc.py` kompilace)
-    - [ ] Radon (komplexita: FAIL ≥ 15 per-function, WARN > 10)
-    - [ ] Doctesty (všechny projdou)
-    - [ ] Unit testy + coverage (celková coverage)
-    - [ ] Diff-coverage (≥ 85 % na změněném kódu)
-    - [ ] Snapshot verify (ověření, že snapshoty odpovídají, bez automatického update).
-- [ ] 7.6 Dokumentovat, že aktualizace snapshotů vyžaduje vědomý zásah v PR (např. `pytest --snapshot-update`).
+- [x] 7.4 Požádat o review proposal před implementací.
+- [x] 7.5 Implementovat CI kroky v pořadí "fail-fast":
+    - [x] Invarianty grepy (0 nálezů)
+    - [x] Kontrola resources (`_icons_rc.py` kompilace)
+    - [x] Radon (komplexita: FAIL ≥ 15 per-function, WARN > 10)
+    - [x] Doctesty (všechny projdou)
+    - [x] Unit testy + coverage (celková coverage)
+    - [x] Diff-coverage (≥ 85 % na změněném kódu)
+    - [x] Snapshot verify (ověření, že snapshoty odpovídají, bez automatického update).
+- [x] 7.6 Dokumentovat, že aktualizace snapshotů vyžaduje vědomý zásah v PR (např. `pytest --snapshot-update`).

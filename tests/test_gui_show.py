@@ -15,7 +15,6 @@ pytestmark = pytest.mark.gui
 
 def test_gui_show(qapp, qtbot, isolated_config: AppConfig):
     """Test GUI show functionality."""
-    print("Testing GUI show functionality...")
 
     # Mock dependencies for MainWindow constructor using isolated config
     tolerance_settings = load_tolerance_settings(cfg=isolated_config)
@@ -31,7 +30,6 @@ def test_gui_show(qapp, qtbot, isolated_config: AppConfig):
     )
 
     try:
-        print("Creating MainWindow instance...")
         window = MainWindow(
             tolerance_settings=tolerance_settings,
             export_settings=export_settings,
@@ -42,19 +40,15 @@ def test_gui_show(qapp, qtbot, isolated_config: AppConfig):
             app_config=isolated_config,
         )
         qtbot.addWidget(window)
-        print("MainWindow created successfully")
 
-        print("Showing MainWindow...")
         window.show()
         qtbot.waitUntil(window.isVisible, timeout=1000)
         qtbot.wait(100)
-        print("MainWindow shown successfully")
 
         window.close()
         qtbot.waitUntil(lambda: not window.isVisible(), timeout=1000)
 
     except Exception as e:
-        print(f"GUI show error: {e}")
         import traceback
         traceback.print_exc()
         pytest.fail(f"GUI show error: {e}")

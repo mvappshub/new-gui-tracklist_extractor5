@@ -67,13 +67,11 @@ class MockMainWindow(QMainWindow):
             settings_dialog = SettingsDialog(settings_file, cfg, self)
             settings_dialog.exec()
         except Exception as e:
-            print(f"Failed to open settings dialog: {e}")
             raise
 
 
 def test_settings_dialog_creation(qapp: QApplication):
     """Test that SettingsDialog can be created successfully."""
-    print("Testing SettingsDialog creation...")
 
     try:
         # Create a mock parent window
@@ -86,12 +84,10 @@ def test_settings_dialog_creation(qapp: QApplication):
             # Test creating SettingsDialog with DI
             dialog = SettingsDialog(settings_file, cfg, parent)
             assert dialog is not None
-            print("+ SettingsDialog created successfully")
 
             # Test that it has the expected components
             assert hasattr(dialog, "settings_page")
             assert isinstance(dialog.settings_page, SettingsPage)
-            print("+ SettingsDialog has SettingsPage")
 
             # Clean up
             dialog.deleteLater()
@@ -100,7 +96,6 @@ def test_settings_dialog_creation(qapp: QApplication):
             return True
 
     except Exception as e:
-        print(f"- SettingsDialog creation failed: {e}")
         import traceback
 
         traceback.print_exc()
@@ -109,7 +104,6 @@ def test_settings_dialog_creation(qapp: QApplication):
 
 def test_settings_dialog_menu_action(qapp: QApplication):
     """Test that Settings dialog opens via Edit -> Settings... menu."""
-    print("Testing Settings dialog via Edit -> Settings... menu...")
 
     try:
         # Create a mock parent window
@@ -123,7 +117,6 @@ def test_settings_dialog_menu_action(qapp: QApplication):
                 break
 
         assert edit_menu is not None, "Edit menu not found"
-        print("+ Edit menu found")
 
         # Find the Settings... action
         settings_action = None
@@ -133,7 +126,6 @@ def test_settings_dialog_menu_action(qapp: QApplication):
                 break
 
         assert settings_action is not None, "Settings... action not found"
-        print("+ Settings... action found")
 
         # Mock the SettingsDialog to avoid actually showing it
         with patch("ui.dialogs.settings_dialog.SettingsDialog") as mock_dialog_class:
@@ -145,7 +137,6 @@ def test_settings_dialog_menu_action(qapp: QApplication):
 
             # Verify the dialog was created
             mock_dialog_class.assert_called_once()
-            print("+ Settings dialog opened via menu action")
 
         # Clean up
         parent.deleteLater()
@@ -153,7 +144,6 @@ def test_settings_dialog_menu_action(qapp: QApplication):
         return True
 
     except Exception as e:
-        print(f"- Menu action test failed: {e}")
         import traceback
 
         traceback.print_exc()
@@ -162,7 +152,6 @@ def test_settings_dialog_menu_action(qapp: QApplication):
 
 def test_settings_dialog_shortcut(qapp: QApplication):
     """Test that Settings dialog opens via Ctrl+, shortcut."""
-    print("Testing Settings dialog via Ctrl+, shortcut...")
 
     try:
         # Create a mock parent window
@@ -191,7 +180,6 @@ def test_settings_dialog_shortcut(qapp: QApplication):
 
             # Verify the dialog was created
             mock_dialog_class.assert_called_once()
-            print("+ Settings dialog opened via Ctrl+, shortcut")
 
         # Clean up
         parent.deleteLater()
@@ -199,7 +187,6 @@ def test_settings_dialog_shortcut(qapp: QApplication):
         return True
 
     except Exception as e:
-        print(f"- Shortcut test failed: {e}")
         import traceback
 
         traceback.print_exc()
@@ -208,7 +195,6 @@ def test_settings_dialog_shortcut(qapp: QApplication):
 
 def test_configuration_save():
     """Test that configuration saves correctly via Save button."""
-    print("Testing configuration save functionality...")
 
     try:
         # Create a temporary directory for testing
@@ -243,12 +229,10 @@ def test_configuration_save():
             assert saved_config["analysis"]["tolerance_warn"] == 5
             assert saved_config["analysis"]["tolerance_fail"] == 10
             assert saved_config["input"]["pdf_dir"] == str(temp_path / "new_pdf")
-            print("+ Configuration saved correctly")
 
             return True
 
     except Exception as e:
-        print(f"- Configuration save test failed: {e}")
         import traceback
 
         traceback.print_exc()
@@ -257,7 +241,6 @@ def test_configuration_save():
 
 def test_path_resolution_absolute():
     """Test that path resolution works correctly with absolute paths."""
-    print("Testing path resolution with absolute paths...")
 
     try:
         # Test with absolute path
@@ -266,18 +249,15 @@ def test_path_resolution_absolute():
 
         # Should return the absolute path as-is (resolved)
         assert resolved == Path(test_path).resolve()
-        print("+ Absolute path resolution works correctly")
 
         # Test with Path object
         test_path_obj = Path("/another/absolute/path")
         resolved_obj = resolve_path(test_path_obj)
         assert resolved_obj == test_path_obj.resolve()
-        print("+ Absolute Path object resolution works correctly")
 
         return True
 
     except Exception as e:
-        print(f"- Absolute path resolution test failed: {e}")
         import traceback
 
         traceback.print_exc()
@@ -286,7 +266,6 @@ def test_path_resolution_absolute():
 
 def test_path_resolution_relative():
     """Test that path resolution works correctly with relative paths."""
-    print("Testing path resolution with relative paths...")
 
     try:
         # Test with relative path
@@ -297,19 +276,16 @@ def test_path_resolution_relative():
         project_root = Path(__file__).resolve().parent
         expected = (project_root / test_path).resolve()
         assert resolved == expected
-        print("+ Relative path resolution works correctly")
 
         # Test with current directory reference
         current_path = "./current/dir"
         resolved_current = resolve_path(current_path)
         expected_current = (project_root / current_path).resolve()
         assert resolved_current == expected_current
-        print("+ Current directory path resolution works correctly")
 
         return True
 
     except Exception as e:
-        print(f"- Relative path resolution test failed: {e}")
         import traceback
 
         traceback.print_exc()
@@ -318,7 +294,6 @@ def test_path_resolution_relative():
 
 def test_path_directory_validation():
     """Test that directory validation works correctly."""
-    print("Testing path directory validation...")
 
     try:
         # Create a temporary directory for testing
@@ -332,7 +307,6 @@ def test_path_directory_validation():
             # This should not raise an error
             cfg.input_pdf_dir = str(valid_dir)
             assert cfg.input_pdf_dir.value == str(valid_dir)
-            print("+ Valid directory path accepted")
 
             # Test with invalid path (non-existent)
             invalid_dir = temp_path / "non_existent_dir"
@@ -341,7 +315,6 @@ def test_path_directory_validation():
             cfg.input_pdf_dir = str(invalid_dir)
             assert invalid_dir.exists()
             assert invalid_dir.is_dir()
-            print("+ Non-existent directory path created automatically")
 
             # Test with file path (should raise error)
             test_file = temp_path / "test_file.txt"
@@ -353,12 +326,10 @@ def test_path_directory_validation():
                 assert False, "Expected ValueError for file path"
             except ValueError as e:
                 assert "not a directory" in str(e).lower()
-                print("+ File path correctly rejected")
 
         return True
 
     except Exception as e:
-        print(f"- Directory validation test failed: {e}")
         import traceback
 
         traceback.print_exc()
@@ -367,7 +338,6 @@ def test_path_directory_validation():
 
 def test_settings_dialog_save_button(qapp: QApplication):
     """Test that the Save button in SettingsDialog works correctly."""
-    print("Testing SettingsDialog Save button functionality...")
 
     try:
         # Create a temporary directory for testing
@@ -410,11 +380,9 @@ def test_settings_dialog_save_button(qapp: QApplication):
             dialog.deleteLater()
             parent.deleteLater()
 
-            print("+ SettingsDialog Save button works correctly")
             return True
 
     except Exception as e:
-        print(f"- Save button test failed: {e}")
         import traceback
 
         traceback.print_exc()
@@ -423,7 +391,6 @@ def test_settings_dialog_save_button(qapp: QApplication):
 
 def test_no_pdf_directory_errors(qapp: QApplication):
     """Test that no 'PDF path is not a directory' errors occur during normal operation."""
-    print("Testing for absence of 'PDF path is not a directory' errors...")
 
     try:
         # Create a temporary directory structure for testing
@@ -467,11 +434,9 @@ def test_no_pdf_directory_errors(qapp: QApplication):
             assert Path(pdf_path).is_dir()
             assert Path(wav_path).is_dir()
 
-            print("+ No 'PDF path is not a directory' errors occurred")
             return True
 
     except Exception as e:
-        print(f"- PDF directory error test failed: {e}")
         import traceback
 
         traceback.print_exc()
@@ -480,7 +445,6 @@ def test_no_pdf_directory_errors(qapp: QApplication):
 
 def run_all_tests():
     """Run all Settings dialog tests."""
-    print("Running comprehensive Settings dialog tests...\n")
 
     tests = [
         test_settings_dialog_creation,
@@ -498,23 +462,14 @@ def run_all_tests():
     failed = 0
 
     for test in tests:
-        print(f"\n{'='*60}")
         try:
             if test():
                 passed += 1
-                print(f"+ {test.__name__} PASSED")
             else:
                 failed += 1
-                print(f"- {test.__name__} FAILED")
         except Exception as e:
             failed += 1
-            print(f"- {test.__name__} FAILED with exception: {e}")
-        print(f"{'='*60}")
 
-    print("\nTest Results Summary:")
-    print(f"Passed: {passed}")
-    print(f"Failed: {failed}")
-    print(f"Total: {passed + failed}")
 
     return failed == 0
 

@@ -22,17 +22,40 @@ jobs:
           python-version: "3.11"
 
       - name: Install system dependencies
-        run: sudo apt-get update && sudo apt-get install -y xvfb libglib2.0-0 libgl1-mesa-dev
+        run: sudo apt-get update && sudo apt-get install -y xvfb libglib2.0-0 libgl1-mesa-dev ripgrep
 
       - name: Install project dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install pytest-cov
+          pip install diff-cover
 
-      - name: Run tests
+      - name: Invariant greps
+        run: python scripts/check_invariants.py
+
+      - name: Verify compiled resources
+        run: pytest tests/test_resources.py -q
+
+      - name: Complexity gate (radon)
+        run: python scripts/check_complexity.py
+
+      - name: Parser doctests
+        run: pytest --doctest-modules core/parsers
+
+      - name: Run tests with coverage
         run: |
-          xvfb-run -a pytest --cov=. --cov-report=html --cov-report=term-missing
+          xvfb-run -a pytest \
+            --cov=. \
+            --cov-report=xml \
+            --cov-report=html \
+            --cov-report=term-missing
+
+      - name: Fetch base branch for diff coverage
+        run: git fetch --depth=1 origin main
+
+      - name: Diff coverage (>=85%)
+        run: diff-cover coverage.xml --compare-branch=origin/main --fail-under=85
 
       - name: Upload coverage report
         if: always()
