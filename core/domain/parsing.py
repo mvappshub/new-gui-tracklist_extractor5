@@ -23,6 +23,13 @@ class StrictFilenameParser:
 
         Returns:
             A ParsedFileInfo tuple containing the extracted side and position.
+
+        Examples:
+            >>> parser = StrictFilenameParser()
+            >>> parser.parse("Side_A_01.wav")
+            ParsedFileInfo(side='A', position=1)
+            >>> parser.parse("mixdown-final.wav")
+            ParsedFileInfo(side=None, position=None)
         """
         name = Path(filename).stem
 
@@ -90,6 +97,11 @@ class TracklistParser:
 
         Returns:
             A sorted and deduplicated list of TrackInfo objects.
+
+        Examples:
+            >>> parser = TracklistParser()
+            >>> parser.parse([{"title": "Song", "side": "A", "position": 1, "duration_formatted": "03:15"}])
+            [TrackInfo(title='Song', side='A', position=1, duration_sec=195)]
         """
         final_tracks = []
         seen = set()

@@ -72,9 +72,9 @@ def compare_data(
         difference = round(total_wav_sec - total_pdf_sec)
 
         status = AnalysisStatus.OK
-        if abs(difference) > tolerance_fail:
+        if abs(difference) >= tolerance_fail:
             status = AnalysisStatus.FAIL
-        elif abs(difference) > tolerance_warn:
+        elif abs(difference) >= tolerance_warn:
             status = AnalysisStatus.WARN
 
         results.append(
