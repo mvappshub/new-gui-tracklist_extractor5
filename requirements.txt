@@ -14,3 +14,6 @@ black>=24.0
 mypy>=1.8
 pytest>=8.0
 coverage>=7.0
+import-linter>=1.9
+radon>=6.0
+diff-cover>=7.6

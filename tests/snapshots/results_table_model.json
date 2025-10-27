@@ -1,0 +1,36 @@
+{
+  "columns": [
+    {
+      "header": "#",
+      "renderer": null
+    },
+    {
+      "header": "File",
+      "renderer": null
+    },
+    {
+      "header": "Side",
+      "renderer": null
+    },
+    {
+      "header": "Mode",
+      "renderer": null
+    },
+    {
+      "header": "Side length",
+      "renderer": null
+    },
+    {
+      "header": "Status",
+      "renderer": null
+    },
+    {
+      "header": "PDF",
+      "renderer": "QIcon"
+    },
+    {
+      "header": "ZIP",
+      "renderer": "QIcon"
+    }
+  ]
+}

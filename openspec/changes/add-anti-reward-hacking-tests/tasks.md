@@ -38,20 +38,20 @@
 - [x] 4.7 Přidat doctesty do `core/domain/parsing.py` pro `StrictFilenameParser` a `TracklistParser` pokrývající konfliktní patterny a malformed input.
 
 ## 5. F-PRE5: GUI Test Hygiena
-- [ ] 5.1 Otevřít `tests/test_gui_simple.py`.
-- [ ] 5.2 Odstranit ruční `QApplication(sys.argv)` z `test_basic_gui`.
-- [ ] 5.3 Přidat `qapp` fixture jako parametr: `def test_basic_gui(qapp):`.
-- [ ] 5.4 Odstranit `return app.exec()` (pytest-qt spravuje event loop).
-- [ ] 5.5 Použít `qtbot` fixture pro interakci s widgety (pokud potřeba): `def test_basic_gui(qapp, qtbot):`.
-- [ ] 5.6 Ověřit že test stále projde s `pytest tests/test_gui_simple.py`.
+- [x] 5.1 Otevřít `tests/test_gui_simple.py`.
+- [x] 5.2 Odstranit ruční `QApplication(sys.argv)` z `test_basic_gui`.
+- [x] 5.3 Přidat `qapp` fixture jako parametr: `def test_basic_gui(qapp):`.
+- [x] 5.4 Odstranit `return app.exec()` (pytest-qt spravuje event loop).
+- [x] 5.5 Použít `qtbot` fixture pro interakci s widgety (pokud potřeba): `def test_basic_gui(qapp, qtbot):`.
+- [x] 5.6 Ověřit že test stále projde s `pytest tests/test_gui_simple.py`.
 
 ## 6. F-PRE6: Architecture & CI Guard-rails
-- [ ] 6.1 Vytvořit `tests/test_architecture.py` pro ověření architektonických vrstev pomocí `pytest-arch`.
-- [ ] 6.2 Konfigurovat `import-linter` pro vynucení architektonických pravidel (např. `adapters` nesmí importovat `core.domain`).
-- [ ] 6.3 Implementovat CI krok pro `radon cc` s prahovou hodnotou **FAIL ≥ 15 per-function** a **WARN > 10**.
-- [ ] 6.4 Vytvořit CI krok pro grepy klíčových invariantů: `QApplication(`, `qapp.exec(`, `print(` v testech, `from .* import _privát`, `SYMBOL_` v `ui/` – ověřit **0 nálezů**.
-- [ ] 6.5 Vytvořit `tests/snapshots/test_analysis_status_snapshot.py` pro snapshot testování `AnalysisStatus` (obsah: `(name, value, severity, icon_name, color_key)`).
-- [ ] 6.6 Vytvořit `tests/snapshots/test_results_table_model_snapshot.py` pro snapshot testování `ResultsTableModel` (obsah: `(header, renderer_id)`).
+- [x] 6.1 Vytvořit `tests/test_architecture.py` pro ověření architektonických vrstev pomocí `pytest-arch`.
+- [x] 6.2 Konfigurovat `import-linter` pro vynucení architektonických pravidel (např. `adapters` nesmí importovat `core.domain`).
+- [x] 6.3 Implementovat CI krok pro `radon cc` s prahovou hodnotou **FAIL ≥ 15 per-function** a **WARN > 10**.
+- [x] 6.4 Vytvořit CI krok pro grepy klíčových invariantů: `QApplication(`, `qapp.exec(`, `print(` v testech, `from .* import _privát`, `SYMBOL_` v `ui/` – ověřit **0 nálezů**.
+- [x] 6.5 Vytvořit `tests/snapshots/test_analysis_status_snapshot.py` pro snapshot testování `AnalysisStatus` (obsah: `(name, value, severity, icon_name, color_key)`).
+- [x] 6.6 Vytvořit `tests/snapshots/test_results_table_model_snapshot.py` pro snapshot testování `ResultsTableModel` (obsah: `(header, renderer_id)`).
 
 ## 7. F-PRE7: GUI Tests Unify (no event loop)
 - [ ] 7.1 Pro všechny GUI testy, které dříve používaly `app.exec()`, nahradit volání za `qtbot.waitUntil(lambda: condition, timeout=...)` nebo podobné mechanismy z `pytest-qt` pro explicitní řízení event loopu a čekání na stavy.

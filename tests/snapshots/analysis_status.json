@@ -1,0 +1,23 @@
+[
+  {
+    "name": "OK",
+    "value": "OK",
+    "severity": 0,
+    "icon": "check",
+    "color_key": "ok"
+  },
+  {
+    "name": "WARN",
+    "value": "WARN",
+    "severity": 1,
+    "icon": "warning",
+    "color_key": "warn"
+  },
+  {
+    "name": "FAIL",
+    "value": "FAIL",
+    "severity": 2,
+    "icon": "cross",
+    "color_key": "fail"
+  }
+]
