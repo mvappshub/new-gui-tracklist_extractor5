@@ -63,20 +63,20 @@
 - [x] 8.3 Implementovat CI krok, který ověří existenci a správnou kompilaci `_icons_rc.py` a zabrání tichému fallbacku na chybějící resources.
 
 ## 9. F-PRE9: Worker Contract & Export Negative I/O
-- [ ] 9.1 Vytvořit `tests/test_worker_contracts.py` pro testování veřejného API workeru (`is_running() -> bool`, `state() -> Enum(IDLE,RUNNING,FINISHED,FAILED)`, signál `state_changed(WorkerState)`).
-- [ ] 9.2 Test `test_export_missing_directory`: zavolat export s neexistujícím cílovým adresářem, ověřit, že adresář je vytvořen.
-- [ ] 9.3 Test `test_export_write_error`: mockovat `open()` nebo `shutil.copy()` tak, aby vyhodily `IOError` nebo `PermissionError` během exportu, ověřit, že export vyhodí příslušnou výjimku a necrashne.
+- [x] 9.1 Vytvořit `tests/test_worker_contracts.py` pro testování veřejného API workeru (`is_running() -> bool`, `state() -> Enum(IDLE,RUNNING,FINISHED,FAILED)`, signál `state_changed(WorkerState)`).
+- [x] 9.2 Test `test_export_missing_directory`: zavolat export s neexistujícím cílovým adresářem, ověřit, že adresář je vytvořen.
+- [x] 9.3 Test `test_export_write_error`: mockovat `open()` nebo `shutil.copy()` tak, aby vyhodily `IOError` nebo `PermissionError` během exportu, ověřit, že export vyhodí příslušnou výjimku a necrashne.
 - [ ] 9.4 **Automatické verzování:** Po úspěšném dokončení a ověření všech testů pro F-PRE0 až F-PRE9, commit a push s popisem "Post-F-PRE9: Všechny anti-reward-hacking testy implementovány a ověřeny."
 
 ## 6. Testing Strategy Spec
-- [ ] 6.1 Vytvořit `openspec/changes/add-anti-reward-hacking-tests/specs/testing/spec.md`.
-- [ ] 6.2 Dokumentovat anti-reward-hacking principy (contract testy, wire-format ověření, negativní scénáře, mutation-like sanity).
-- [ ] 6.3 Definovat requirements pro AI adapter testing, PDF extraction testing, parser robustness, GUI test hygiene, architektonické guard-rails, QSettings/resources a worker/export testování.
+- [x] 6.1 Vytvořit `openspec/changes/add-anti-reward-hacking-tests/specs/testing/spec.md`.
+- [x] 6.2 Dokumentovat anti-reward-hacking principy (contract testy, wire-format ověření, negativní scénáře, mutation-like sanity).
+- [x] 6.3 Definovat requirements pro AI adapter testing, PDF extraction testing, parser robustness, GUI test hygiene, architektonické guard-rails, QSettings/resources a worker/export testování.
 
 ## 7. Validation & Documentation
-- [ ] 7.1 Spustit `pytest tests/test_ai_contracts.py tests/test_pdf_extractor_contract.py tests/test_parser_sanity.py tests/test_gui_simple.py tests/test_architecture.py tests/test_worker_contracts.py tests/snapshots/test_analysis_status_snapshot.py tests/snapshots/test_results_table_model_snapshot.py` a ověřit že všechny testy projdou.
-- [ ] 7.2 Spustit `openspec validate add-anti-reward-hacking-tests --strict` a opravit případné chyby.
-- [ ] 7.3 Aktualizovat `tests/README.md` s odkazem na nové contract/sanity testy a vysvětlením nových kategorií testů.
+- [x] 7.1 Spustit `pytest tests/test_ai_contracts.py tests/test_pdf_extractor_contract.py tests/test_parser_sanity.py tests/test_gui_simple.py tests/test_architecture.py tests/test_worker_contracts.py tests/snapshots/test_analysis_status_snapshot.py tests/snapshots/test_results_table_model_snapshot.py` a ověřit že všechny testy projdou.
+- [x] 7.2 Spustit `openspec validate add-anti-reward-hacking-tests --strict` a opravit případné chyby.
+- [x] 7.3 Aktualizovat `tests/README.md` s odkazem na nové contract/sanity testy a vysvětlením nových kategorií testů.
 - [ ] 7.4 Požádat o review proposal před implementací.
 - [ ] 7.5 Implementovat CI kroky v pořadí "fail-fast":
     - [ ] Invarianty grepy (0 nálezů)

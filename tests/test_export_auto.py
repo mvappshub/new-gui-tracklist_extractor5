@@ -7,7 +7,7 @@ Testuje všechny čtyři scénáře ze spec:
 1. Success - export.auto=true, JSON se vytvoří
 2. Disabled - export.auto=false, žádný soubor se nevytvoří
 3. Directory Creation - neexistující adresář se vytvoří
-4. Write Failure - chyba při zápisu, aplikace loguje chybu
+4. Write Failure - chyba při zápisu je propagována a zalogována
 """
 
 import json
@@ -135,7 +135,7 @@ class TestExportAuto:
         assert result_path.parent == export_dir
 
     def test_export_write_failure(self, tmp_path, caplog):
-        """Test 2.4: Ověřit, že když aplikace nemůže zapsat do export.default_dir, loguje chybu."""
+        """Test 2.4: Ověřit, že když aplikace nemůže zapsat do export.default_dir, chyba je propagována."""
         # Arrange
         export_dir = tmp_path / "exports"
         export_dir.mkdir()
@@ -145,19 +145,15 @@ class TestExportAuto:
 
         # Mock json.dump funkci, aby vyvolala PermissionError při zápisu
         with patch("json.dump") as mock_json_dump, caplog.at_level(logging.ERROR):
-            # Simulovat chybu při zápisu JSON
             mock_json_dump.side_effect = PermissionError("Access denied")
 
-            # Act
-            result_path = export_results_to_json(mock_results, export_settings)
+            with pytest.raises(PermissionError):
+                export_results_to_json(mock_results, export_settings)
 
-            # Assert
-            assert result_path is None  # Žádný soubor nebyl vytvořen kvůli chybě
-
-            # Ověřit, že byla zalogována chyba
-            assert len(caplog.records) > 0
-            error_logged = any("Failed to export analysis results" in record.message for record in caplog.records)
-            assert error_logged, f"Expected error log not found in: {[r.message for r in caplog.records]}"
+        assert len(caplog.records) > 0
+        error_logged = any("Failed to export analysis results" in record.message for record in caplog.records)
+        assert error_logged, "Expected error log not found in: {}".format([r.message for r in caplog.records])
+        assert not any(export_dir.glob("*.json")), "Export file should not be created on failure"
 
     def test_export_empty_results(self, tmp_path):
         """Test: Ověřit, že s prázdnými výsledky se nevytváří žádný export."""
@@ -249,7 +245,7 @@ class TestExportAuto:
             assert "duration_sec" in wav_track
 
     def test_export_open_failure(self, tmp_path, caplog):
-        """Test: Ověřit, že když selže otevření souboru pro zápis, aplikace loguje chybu."""
+        """Test: Ověřit, že když selže otevření souboru pro zápis, chyba je propagována."""
         # Arrange
         export_dir = tmp_path / "exports"
         export_dir.mkdir()
@@ -257,15 +253,14 @@ class TestExportAuto:
         export_settings = ExportSettings(auto_export=True, export_dir=export_dir)
 
         with patch("pathlib.Path.open", side_effect=PermissionError("Access denied")), caplog.at_level(logging.ERROR):
-            # Act
-            result_path = export_results_to_json(
-                [self.create_mock_side_result(1)],
-                export_settings,
-            )
+            with pytest.raises(PermissionError):
+                export_results_to_json(
+                    [self.create_mock_side_result(1)],
+                    export_settings,
+                )
 
-            # Assert
-            assert result_path is None
-            assert any("Failed to export analysis results" in record.message for record in caplog.records)
+        assert any("Failed to export analysis results" in record.message for record in caplog.records)
+        assert not any(export_dir.glob("*.json"))
 
 
 if __name__ == "__main__":

@@ -38,7 +38,7 @@ def export_results_to_json(results: list[SideResult], export_settings: ExportSet
         export_dir.mkdir(parents=True, exist_ok=True)
     except Exception:  # pragma: no cover
         logging.error("Failed to prepare export directory: %s", export_dir, exc_info=True)
-        return None
+        raise
 
     base = datetime.now().strftime("%Y%m%d_%H%M%S")
     payload: dict[str, Any] = {
@@ -66,7 +66,7 @@ def export_results_to_json(results: list[SideResult], export_settings: ExportSet
         except Exception:  # pragma: no cover
             logging.error("Failed to export analysis results to %s", out_path, exc_info=True)
             out_path.unlink(missing_ok=True)
-            return None
+            raise
 
     logging.error("Could not create unique filename for export in %s", export_dir)  # pragma: no cover
     return None

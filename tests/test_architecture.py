@@ -14,7 +14,7 @@ CONFIG_PATH = Path(__file__).resolve().parent.parent / "linter.ini"
 @pytest.mark.slow
 def test_import_linter_contracts():
     result = subprocess.run(
-        [sys.executable, "-m", "importlinter", "lint", "--config", str(CONFIG_PATH)],
+        [sys.executable, "-m", "importlinter.cli", "lint", "--config", str(CONFIG_PATH)],
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
         text=True,

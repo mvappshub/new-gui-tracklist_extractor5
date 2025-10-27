@@ -1,87 +1,83 @@
-# Waveform Test Suite
+# Test Suite Overview
 
-## Overview
+This directory hosts the anti–reward-hacking verification suite that keeps AI-assisted extraction honest and regression-free. The tests are grouped into the following categories:
 
-This directory contains the automated tests for the waveform viewer feature. The suite is organised into the following categories:
-
-- **Unit tests** (`test_waveform_viewer.py`) verify the behaviour of `WaveformViewerDialog`.
-- **Unit tests** (`test_waveform_editor.py`) cover `WaveformEditorDialog`, including region selection, snapping, and marker handling.
-- **Integration tests** (`test_waveform_integration.py`) exercise the GUI workflow inside `fluent_gui.MainWindow`.
-- **Configuration tests** (`test_waveform_config.py`) validate configuration defaults and the settings UI.
-- **Shared fixtures** (`conftest.py`) provide reusable helpers for Qt applications, configuration isolation, and sample media assets.
+- **AI contract tests** (`tests/test_ai_contracts.py`) assert the exact wire-format used by `VlmClient` and `ai_helpers`, including prompts, `response_format`, base64 image encoding, and error handling paths.
+- **PDF extractor integration** (`tests/test_pdf_extractor_contract.py`) exercises `extract_pdf_tracklist` end-to-end with mocked renderers and AI responses, covering valid data, empty payloads, exceptions, and multi-page aggregation.
+- **Parser & comparison sanity checks** (`tests/test_parser_sanity.py`) pin strict filename parsing, tracklist parsing, and tolerance boundaries for `compare_data`, including doctest coverage for negative scenarios.
+- **GUI hygiene tests** (`tests/test_gui_simple.py`, `tests/test_gui_minimal.py`, `tests/test_gui_show.py`, `tests/test_settings_dialog.py`) ensure every Qt test reuses the shared `qapp` fixture and drives the event loop explicitly via `qtbot.waitUntil` instead of `app.exec()`.
+- **Architecture & guard-rails** (`tests/test_architecture.py`, `tests/snapshots/*.py`) enforce layered imports with import-linter, monitor cyclomatic complexity (radon), check invariant greps, and protect UI models with snapshots.
+- **Worker & export contracts** (`tests/test_worker_contracts.py`, `tests/test_export_auto.py`, `tests/test_export_service.py`) verify worker state transitions, signal types, directory creation, and failure propagation for export routines.
+- **Resource integrity** (`tests/test_resources.py`) confirms `_icons_rc.py` is compiled and that required `:/icons/*` assets resolve via `QResource`.
 
 ## Running Tests
 
-Execute the entire test suite:
+Run the full suite:
 
 ```bash
 pytest
 ```
 
-Run a specific file:
+Execute the anti–reward-hacking regression command (Task 7.1):
 
 ```bash
-pytest tests/test_waveform_viewer.py
+pytest tests/test_ai_contracts.py \
+       tests/test_pdf_extractor_contract.py \
+       tests/test_parser_sanity.py \
+       tests/test_gui_simple.py \
+       tests/test_architecture.py \
+       tests/test_worker_contracts.py \
+       tests/snapshots/test_analysis_status_snapshot.py \
+       tests/snapshots/test_results_table_model_snapshot.py
 ```
 
-Filter by marker:
+Lint architecture contracts directly:
 
 ```bash
-pytest -m unit
+python -m importlinter.cli lint --config linter.ini
 ```
 
-Generate coverage:
+Check cyclomatic complexity thresholds:
 
 ```bash
-pytest --cov=. --cov-report=html
+radon cc src --total-average
 ```
 
-Enable verbose output:
+Run doctests for parser modules:
 
 ```bash
-pytest -v
+pytest --doctest-modules core/parsers
 ```
 
-## Fixtures
+## Key Fixtures (tests/conftest.py)
 
-- **`qapp`**: Session-scoped `QApplication` instance for Qt tests.
-- **`isolated_config`**: Temporary configuration using in-memory QSettings.
-- **`mock_wav_zip`**: Creates a ZIP archive containing a valid WAV sine wave for playback tests.
-- **`empty_zip`** / **`invalid_wav_zip`**: Provide error-condition archives for robustness scenarios.
+- **`disable_network_access`** *(session, autouse)* – monkeypatches `socket` APIs so no test can reach the Internet.
+- **`unset_ai_api_keys`** *(session, autouse)* – clears `OPENAI_API_KEY` and `OPENROUTER_API_KEY` to prevent accidental live calls.
+- **`qapp`** *(session)* – single `QApplication` instance shared by all Qt tests; always request it via the fixture.
+- **`isolated_qsettings`** *(session)* – helper that rewires `QSettings` paths into temporary directories for per-test isolation.
+- **`isolated_config`** – hands each test a fresh `AppConfig` bound to the isolated QSettings storage; also monkeypatches module-level `cfg` references.
+- **Media fixtures** (`mock_wav_zip`, `empty_zip`, `invalid_wav_zip`) – supply WAV archives for audio-path tests.
+- **Tolerance & ID fixtures** (`tolerance_settings`, `id_extraction_settings`, `audio_mode_detector`) – provide deterministic configuration objects.
 
-## Writing New Tests
+## Authoring Guidelines
 
-- Use pytest-qt's `qtbot` fixture to interact with widgets and simulate user actions.
-- Patch Qt signals or multimedia APIs with `unittest.mock` for deterministic behaviour.
-- Group related tests inside `Test*` classes and follow the `test_*` naming convention.
+- Treat AI-facing code as a contract: assert request payloads, temperature, message structure, and JSON shape explicitly.
+- Prefer `qtbot.waitUntil` / `qtbot.wait` over manual event loops, and always add widgets via `qtbot.addWidget` for cleanup.
+- When testing file-system or settings behaviour, rely on `isolated_config` / `isolated_qsettings` so tests never touch user data.
+- For negative I/O scenarios, raise `PermissionError` or `IOError` and assert the exception propagates (no silent fallbacks).
+- Extend architectural guard-rails by editing `linter.ini` and adding snapshot tests when UI surface changes.
+- Snapshot updates must be deliberate—run `pytest --snapshot-update` locally and commit regenerated JSON alongside code changes.
 
-## Troubleshooting
+## CI Expectations
 
-- Set `QT_QPA_PLATFORM=offscreen` when running headless (e.g. CI servers).
-- Ensure optional dependencies (`pyqtgraph`, `soundfile`, Qt multimedia) are installed for waveform tests.
-- If tests hang, verify a single global `QApplication` instance is active.
+The CI pipeline runs the following fail-fast stages (see F-PRE6/F-PRE9 requirements):
 
-## Coverage Goals
+1. **Invariant greps** – abort if forbidden patterns such as `QApplication(` in tests or `print(` in production appear.
+2. **Resource compilation** – validate `_icons_rc.py` via `tests/test_resources.py`; failing to compile resources should fail the build.
+3. **Radon complexity gate** – fail when any function reaches complexity ≥ 15 (warn at > 10).
+4. **Doctests** – run on parser modules to keep documentation examples current.
+5. **Unit & integration tests** – standard pytest run with coverage reporting.
+6. **Diff coverage** – require ≥ 85 % coverage on modified files.
+7. **Snapshot verification** – ensure UI snapshots match the committed JSON fixtures.
 
-- Target 80%+ coverage for `waveform_viewer.py`.
-- Critical paths to exercise:
-  - Both `WaveformViewerDialog` and `WaveformEditorDialog` initialization flows
-  - Audio extraction from ZIP archives
-  - Waveform rendering and downsampling logic
-  - Playback controls (play, pause, stop, seek)
-  - Region selection and snapping (editor only)
-  - PDF marker visualization (editor only)
-  - Volume control interactions
-- Error handling for missing or invalid files
-- Resource cleanup on dialog close
-
-## Known Issues (Fixed)
-
-The following issues were identified during code review and have been fixed:
-
-1. **Missing `Dict` import**: Added to typing imports in `waveform_viewer.py`.
-2. **Duplicate `_temp_wav` definition**: Removed the redundant assignment in `WaveformEditorDialog`.
-3. **`_format_time()` inconsistency**: Standardized to use milliseconds in `WaveformViewerDialog` while keeping seconds in the editor.
-4. **Position line detection bug**: Replaced the overview line search with a dedicated instance reference.
-5. **Unused variables**: Removed unused `time_axis` calculations in detail view updates.
-6. **Magic numbers**: Promoted waveform-related constants to named module-level values.
+Keep those stages green locally before pushing to avoid noisy CI cycles.

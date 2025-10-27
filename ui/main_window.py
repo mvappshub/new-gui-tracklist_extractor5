@@ -343,10 +343,14 @@ class MainWindow(QMainWindow):
         except Exception:
             all_results = []
 
-        export_path = export_results_to_json(
-            results=all_results,
-            export_settings=self.export_settings,
-        )
+        try:
+            export_path = export_results_to_json(
+                results=all_results,
+                export_settings=self.export_settings,
+            )
+        except Exception as exc:
+            logging.error("Failed to export analysis results: %s", exc, exc_info=True)
+            export_path = None
 
         if export_path is not None:
             ready_msg = f"{STATUS_READY} - {message} - Exported: {export_path.name}"
