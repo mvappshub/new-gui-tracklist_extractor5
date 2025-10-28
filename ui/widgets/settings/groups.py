@@ -14,6 +14,7 @@ from PyQt6.QtWidgets import (
     QSlider,
     QVBoxLayout,
     QWidget,
+    QCheckBox,
 )
 
 
@@ -220,6 +221,7 @@ class PathsGroup(QGroupBox):
         pdf_dir: str,
         wav_dir: str,
         export_dir: str,
+        auto_export: bool = True,
         parent: QWidget | None = None,
     ) -> None:
         super().__init__("Directory Paths", parent)
@@ -256,10 +258,31 @@ class PathsGroup(QGroupBox):
         self.export_card.settingChanged.connect(self.settingChanged.emit)
         layout.addWidget(self.export_card)
 
-    def sync_paths(self, pdf_dir: str, wav_dir: str, export_dir: str) -> None:
+        # Auto-export toggle
+        auto_export_layout = QHBoxLayout()
+        auto_export_label = QLabel("Auto-export results:")
+        auto_export_label.setFixedWidth(150)
+        auto_export_layout.addWidget(auto_export_label)
+
+        self.auto_export_toggle = QCheckBox("Automatically export results", self)
+        self.auto_export_toggle.stateChanged.connect(self._on_auto_export_changed)
+        auto_export_layout.addWidget(self.auto_export_toggle)
+        auto_export_layout.addStretch()
+
+        layout.addLayout(auto_export_layout)
+
+    def _on_auto_export_changed(self, state: int) -> None:
+        self.settingChanged.emit("export/auto", bool(state))
+
+    def sync_paths(self, pdf_dir: str, wav_dir: str, export_dir: str, auto_export: bool = True) -> None:
         self.pdf_card.set_path(coerce_folder(pdf_dir), update_config=False)
         self.wav_card.set_path(coerce_folder(wav_dir), update_config=False)
         self.export_card.set_path(coerce_folder(export_dir), update_config=False)
+        self.auto_export_toggle.blockSignals(True)
+        try:
+            self.auto_export_toggle.setChecked(auto_export)
+        finally:
+            self.auto_export_toggle.blockSignals(False)
 
 
 class AnalysisGroup(QGroupBox):

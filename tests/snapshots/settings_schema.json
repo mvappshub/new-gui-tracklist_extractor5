@@ -1,0 +1,11 @@
+{
+  "llm/base_url": "https://openrouter.ai/api/v1",
+  "llm/model": "google/gemini-2.5-flash",
+  "export/auto": true,
+  "export/default_dir": "exports",
+  "analysis/tolerance_warn": 2,
+  "analysis/tolerance_fail": 5,
+  "input/pdf_dir": "./data/pdf",
+  "input/wav_dir": "./data/wav",
+  "ui/dpi_scale": "AUTO"
+}

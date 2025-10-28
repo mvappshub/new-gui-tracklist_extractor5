@@ -33,6 +33,7 @@ run_guard "Doctests" "${PYTHON_CMD[@]}" -m pytest core/domain/parsing.py --docte
 run_guard "Collecting coverage metrics" bash -c 'QT_QPA_PLATFORM=offscreen "'"${PYTHON_CMD[@]}"'" -m coverage run -m pytest'
 run_guard "Coverage report" "${PYTHON_CMD[@]}" -m coverage report --fail-under=78
 run_guard "Coverage XML" "${PYTHON_CMD[@]}" -m coverage xml
+run_guard "Module coverage gates" "${PYTHON_CMD[@]}" tools/ci_guard.py coverage
 
 if "${PYTHON_CMD[@]}" - <<'PY'
 import importlib.util

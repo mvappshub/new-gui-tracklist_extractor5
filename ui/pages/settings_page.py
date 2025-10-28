@@ -76,6 +76,7 @@ class SettingsPage(QWidget):
             pdf_dir=self.cfg.get("input/pdf_dir", "./data/pdf"),
             wav_dir=self.cfg.get("input/wav_dir", "./data/wav"),
             export_dir=self.cfg.get("export/default_dir", "exports"),
+            auto_export=self.cfg.get("export/auto", True),
             parent=self.container,
         )
         self.paths_group.settingChanged.connect(self.settingChanged.emit)
@@ -158,6 +159,7 @@ class SettingsPage(QWidget):
                 self.cfg.get("input/pdf_dir", "./data/pdf"),
                 self.cfg.get("input/wav_dir", "./data/wav"),
                 self.cfg.get("export/default_dir", "exports"),
+                self.cfg.get("export/auto", True),
             )
 
         if hasattr(self, "ui_group"):

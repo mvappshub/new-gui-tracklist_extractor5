@@ -8,175 +8,326 @@ Ensures anti-reward-hacking test coverage across AI adapters, PDF extraction, pa
 The test environment MUST be isolated from external dependencies, especially network access and real API keys, to guarantee deterministic and reliable execution.
 
 #### Scenario: Network access disabled
-- **GIVEN** jakýkoli test je spuštìn
-- **WHEN** test se pokusí o síové volání
-- **THEN** síové volání je blokováno (napø. `socket.socket` vyhodí chybu)
+- **GIVEN** jakÃ½koli test je spuÂštÄ›n
+- **WHEN** test se pokusÃ­ o sÃ­ÂovÃ© volÃ¡nÃ­
+- **THEN** sÃ­ÂovÃ© volÃ¡nÃ­ je blokovÃ¡no (napÅ™. `socket.socket` vyhodÃ­ chybu)
 
 #### Scenario: AI API keys unset
-- **GIVEN** jakýkoli test je spuštìn
-- **WHEN** kód se pokusí získat `OPENAI_API_KEY` nebo `OPENROUTER_API_KEY`
-- **THEN** klíèe jsou `None` nebo prázdné øetìzce, což zabraòuje reálným API voláním
+- **GIVEN** jakÃ½koli test je spuÂštÄ›n
+- **WHEN** kÃ³d se pokusÃ­ zÃ­skat `OPENAI_API_KEY` nebo `OPENROUTER_API_KEY`
+- **THEN** klÃ­Äe jsou `None` nebo prÃ¡zdnÃ© Å™etÄ›zce, coÂž zabraÅˆuje reÃ¡lnÃ½m API volÃ¡nÃ­m
 
 ### Requirement: AI Adapter Contract Testing
 AI adapters (`VlmClient`, `ai_helpers`) MUST be verified with contract tests that cover real wire-format structures (messages, `response_format`, image encoding) without calling live APIs.
 
 #### Scenario: VlmClient message format verification
-- **GIVEN** `VlmClient` instance s mockovaným OpenAI klientem
-- **WHEN** `get_json_response` je zavolána s promptem a obrázky
-- **THEN** mockovaný klient zachytí parametry volání
-- **AND** `model`, `messages` (role/content s image_url), `response_format={"type": "json_object"}`, `temperature=0.0` jsou ovìøeny
+- **GIVEN** `VlmClient` instance s mockovanÃ½m OpenAI klientem
+- **WHEN** `get_json_response` je zavolÃ¡na s promptem a obrÃ¡zky
+- **THEN** mockovanÃ½ klient zachytÃ­ parametry volÃ¡nÃ­
+- **AND** `model`, `messages` (role/content s image_url), `response_format={"type": "json_object"}`, `temperature=0.0` jsou ovÄ›Å™eny
 
 #### Scenario: VlmClient image encoding
-- **GIVEN** 1×1 PNG obrázek vytvoøený pomocí PIL
-- **WHEN** `_to_data_url` je zavolána
-- **THEN** návrat zaèíná `data:image/png;base64,`
-- **AND** base64 èást je dekódovatelná
+- **GIVEN** 1Ã—1 PNG obrÃ¡zek vytvoÅ™enÃ½ pomocÃ­ PIL
+- **WHEN** `_to_data_url` je zavolÃ¡na
+- **THEN** nÃ¡vrat zaÄÃ­nÃ¡ `data:image/png;base64,`
+- **AND** base64 ÄÃ¡st je dekÃ³dovatelnÃ¡
 
 #### Scenario: VlmClient error handling
-- **GIVEN** mockovaná response s `content=None`
-- **WHEN** `get_json_response` je zavolána
-- **THEN** vyhodí `ValueError("AI returned an empty response.")`
+- **GIVEN** mockovanÃ¡ response s `content=None`
+- **WHEN** `get_json_response` je zavolÃ¡na
+- **THEN** vyhodÃ­ `ValueError("AI returned an empty response.")`
 
 #### Scenario: ai_parse_batch request format
 - **GIVEN** fake OpenAI klient co loguje parametry
-- **WHEN** `ai_parse_batch` je zavolána s filenames
+- **WHEN** `ai_parse_batch` je zavolÃ¡na s filenames
 - **THEN** system prompt obsahuje "STRICT JSON"
-- **AND** filenames jsou pøedány jako JSON v user content
+- **AND** filenames jsou pÅ™edÃ¡ny jako JSON v user content
 
 ### Requirement: PDF Extraction Integration Testing (No-Network)
 `extract_pdf_tracklist` MUST be tested end-to-end without network access using mocked `PdfImageRenderer` and `VlmClient`, covering valid responses, empty payloads, and exceptions.
 
 #### Scenario: Valid tracklist extraction
-- **GIVEN** mockovaný renderer vrací jeden obrázek
-- **AND** mockovaný `VlmClient` vrací validní `{"tracks": [...]}`
-- **WHEN** `extract_pdf_tracklist` je zavolána
-- **THEN** vrací dict seskupený podle side
-- **AND** poèty záznamù odpovídají
+- **GIVEN** mockovanÃ½ renderer vracÃ­ jeden obrÃ¡zek
+- **AND** mockovanÃ½ `VlmClient` vracÃ­ validnÃ­ `{"tracks": [...]}`
+- **WHEN** `extract_pdf_tracklist` je zavolÃ¡na
+- **THEN** vracÃ­ dict seskupenÃ½ podle side
+- **AND** poÄty zÃ¡znamÅ¯ odpovÃ­dajÃ­
 
 #### Scenario: Empty AI response
-- **GIVEN** mockovaný `VlmClient` vrací prázdný `{}`
-- **WHEN** `extract_pdf_tracklist` je zavolána
-- **THEN** vrací prázdný dict `{}`
-- **AND** warning log je zaznamenán
+- **GIVEN** mockovanÃ½ `VlmClient` vracÃ­ prÃ¡zdnÃ½ `{}`
+- **WHEN** `extract_pdf_tracklist` je zavolÃ¡na
+- **THEN** vracÃ­ prÃ¡zdnÃ½ dict `{}`
+- **AND** warning log je zaznamenÃ¡n
 
 #### Scenario: AI exception handling
-- **GIVEN** mockovaný `VlmClient` vyhodí výjimku pøi jedné stránce
-- **WHEN** `extract_pdf_tracklist` je zavolána s více stránkami
-- **THEN** pøeskoèí chybnou stránku
-- **AND** pokraèuje s dalšími stránkami
+- **GIVEN** mockovanÃ½ `VlmClient` vyhodÃ­ vÃ½jimku pÅ™i jednÃ© strÃ¡nce
+- **WHEN** `extract_pdf_tracklist` je zavolÃ¡na s vÃ­ce strÃ¡nkami
+- **THEN** pÅ™eskoÄÃ­ chybnou strÃ¡nku
+- **AND** pokraÄuje s dalÂšÃ­mi strÃ¡nkami
 
 ### Requirement: Parser Robustness Testing
 `StrictFilenameParser` and `TracklistParser` MUST include targeted negative tests for conflicting patterns, malformed input, and edge cases, including doctests.
 
 #### Scenario: Conflicting filename patterns
-- **GIVEN** filename s konfliktními side patterny (napø. `"Side_A_B1_track.wav"`)
-- **WHEN** `StrictFilenameParser.parse` je zavolána
-- **THEN** vrací deterministický výsledek (první match vyhrává)
+- **GIVEN** filename s konfliktnÃ­mi side patterny (napÅ™. `"Side_A_B1_track.wav"`)
+- **WHEN** `StrictFilenameParser.parse` je zavolÃ¡na
+- **THEN** vracÃ­ deterministickÃ½ vÃ½sledek (prvnÃ­ match vyhrÃ¡vÃ¡)
 
 #### Scenario: Malformed duration handling
 - **GIVEN** track data s `duration_formatted="invalid"`
-- **WHEN** `TracklistParser.parse` je zavolána
-- **THEN** track je pøeskoèen (ne crash)
-- **AND** warning log je zaznamenán
+- **WHEN** `TracklistParser.parse` je zavolÃ¡na
+- **THEN** track je pÅ™eskoÄen (ne crash)
+- **AND** warning log je zaznamenÃ¡n
 
 #### Scenario: Doctests for parsing logic
-- **GIVEN** doctesty definované pøímo v modulu parseru
-- **WHEN** doctesty jsou spuštìny
-- **THEN** všechny doctesty projdou, ovìøující chování pro konfliktní a negativní pøípady
+- **GIVEN** doctesty definovanÃ© pÅ™Ã­mo v modulu parseru
+- **WHEN** doctesty jsou spuÂštÄ›ny
+- **THEN** vÂšechny doctesty projdou, ovÄ›Å™ujÃ­cÃ­ chovÃ¡nÃ­ pro konfliktnÃ­ a negativnÃ­ pÅ™Ã­pady
 
 ### Requirement: Comparison Tolerance Edge Cases
 `compare_data` MUST be exercised with differences that sit exactly on the warn/fail tolerance boundaries.
 
 #### Scenario: Exact warn tolerance boundary
-- **GIVEN** PDF a WAV data s rozdílem pøesnì `warn_tolerance` (2s)
-- **WHEN** `compare_data` je zavolána
+- **GIVEN** PDF a WAV data s rozdÃ­lem pÅ™esnÄ› `warn_tolerance` (2s)
+- **WHEN** `compare_data` je zavolÃ¡na
 - **THEN** status je `WARN`
 
 #### Scenario: Exact fail tolerance boundary
-- **GIVEN** PDF a WAV data s rozdílem pøesnì `fail_tolerance` (5s)
-- **WHEN** `compare_data` je zavolána
+- **GIVEN** PDF a WAV data s rozdÃ­lem pÅ™esnÄ› `fail_tolerance` (5s)
+- **WHEN** `compare_data` je zavolÃ¡na
 - **THEN** status je `FAIL`
 
 #### Scenario: Negative difference handling
-- **GIVEN** WAV kratší než PDF (negativní rozdíl)
-- **WHEN** `compare_data` je zavolána
-- **THEN** `abs(difference)` se používá pro tolerance check
+- **GIVEN** WAV kratÂšÃ­ neÂž PDF (negativnÃ­ rozdÃ­l)
+- **WHEN** `compare_data` je zavolÃ¡na
+- **THEN** `abs(difference)` se pouÂžÃ­vÃ¡ pro tolerance check
 
 ### Requirement: GUI Test Hygiene
 GUI tests MUST use the shared `qapp` fixture from `tests/conftest.py` instead of manually instantiating `QApplication`, and MUST drive the event loop explicitly.
 
 #### Scenario: Unified QApplication fixture
-- **GIVEN** GUI test potøebující QApplication
-- **WHEN** test je definován
-- **THEN** používá `qapp` fixture jako parametr
-- **AND** neobsahuje ruèní `QApplication(sys.argv)`
+- **GIVEN** GUI test potÅ™ebujÃ­cÃ­ QApplication
+- **WHEN** test je definovÃ¡n
+- **THEN** pouÂžÃ­vÃ¡ `qapp` fixture jako parametr
+- **AND** neobsahuje ruÄnÃ­ `QApplication(sys.argv)`
 - **AND** pytest-qt spravuje event loop
 
 #### Scenario: Explicit event loop control
-- **GIVEN** GUI test, který potøebuje èekat na události
-- **WHEN** test je definován
-- **THEN** používá `qtbot.waitUntil` nebo podobné mechanismy
+- **GIVEN** GUI test, kterÃ½ potÅ™ebuje Äekat na udÃ¡losti
+- **WHEN** test je definovÃ¡n
+- **THEN** pouÂžÃ­vÃ¡ `qtbot.waitUntil` nebo podobnÃ© mechanismy
 - **AND** neobsahuje `app.exec()`
 
 ### Requirement: Architecture & CI Guard-rails
 The project MUST enforce architectural and CI guard-rails to uphold layering, limit complexity, verify invariants, and detect regressions via snapshot tests.
 
 #### Scenario: Layered architecture enforcement
-- **GIVEN** kód, který porušuje definované architektonické vrstvy (napø. `adapters` importuje `core.domain`)
-- **WHEN** architektonické testy jsou spuštìny
-- **THEN** testy selžou a nahlásí porušení
+- **GIVEN** kÃ³d, kterÃ½ poruÂšuje definovanÃ© architektonickÃ© vrstvy (napÅ™. `adapters` importuje `core.domain`)
+- **WHEN** architektonickÃ© testy jsou spuÂštÄ›ny
+- **THEN** testy selÂžou a nahlÃ¡sÃ­ poruÂšenÃ­
 
 #### Scenario: Cyclomatic complexity gate
 - **GIVEN** funkce s cyklomatickou komplexitou ? 15
-- **WHEN** CI krok pro `radon cc` je spuštìn
-- **THEN** CI pipeline selže
+- **WHEN** CI krok pro `radon cc` je spuÂštÄ›n
+- **THEN** CI pipeline selÂže
 
 #### Scenario: Invariant violation detection
-- **GIVEN** kód, který obsahuje zakázané invarianty (napø. `QApplication(` v testech, `print(` v produkèním kódu)
-- **WHEN** CI krok pro grepy invariantù je spuštìn
-- **THEN** CI pipeline selže
+- **GIVEN** kÃ³d, kterÃ½ obsahuje zakÃ¡zanÃ© invarianty (napÅ™. `QApplication(` v testech, `print(` v produkÄnÃ­m kÃ³du)
+- **WHEN** CI krok pro grepy invariantÅ¯ je spuÂštÄ›n
+- **THEN** CI pipeline selÂže
 
 #### Scenario: Snapshot test for AnalysisStatus
-- **GIVEN** `AnalysisStatus` objekt s definovanými atributy
-- **WHEN** snapshot test je spuštìn
-- **THEN** serializovaný stav `AnalysisStatus` odpovídá uloženému snapshotu `(name, value, severity, icon_name, color_key)`
+- **GIVEN** `AnalysisStatus` objekt s definovanÃ½mi atributy
+- **WHEN** snapshot test je spuÂštÄ›n
+- **THEN** serializovanÃ½ stav `AnalysisStatus` odpovÃ­dÃ¡ uloÂženÃ©mu snapshotu `(name, value, severity, icon_name, color_key)`
 
 #### Scenario: Snapshot test for ResultsTableModel
-- **GIVEN** `ResultsTableModel` objekt s definovanými atributy
-- **WHEN** snapshot test je spuštìn
-- **THEN** serializovaný stav `ResultsTableModel` odpovídá uloženému snapshotu `(header, renderer_id)`
+- **GIVEN** `ResultsTableModel` objekt s definovanÃ½mi atributy
+- **WHEN** snapshot test je spuÂštÄ›n
+- **THEN** serializovanÃ½ stav `ResultsTableModel` odpovÃ­dÃ¡ uloÂženÃ©mu snapshotu `(header, renderer_id)`
 
 ### Requirement: QSettings Isolation & Resources Build
 `QSettings` MUST be isolated during tests and the resource build process MUST fail loudly in CI instead of silently falling back.
 
 #### Scenario: Isolated QSettings in tests
-- **GIVEN** test, který používá `QSettings`
-- **WHEN** test je spuštìn
-- **THEN** `QSettings` instance je izolovaná pro daný test (session-scoped fixture, per-test files)
-- **AND** zmìny v nastavení neovlivòují jiné testy
+- **GIVEN** test, kterÃ½ pouÂžÃ­vÃ¡ `QSettings`
+- **WHEN** test je spuÂštÄ›n
+- **THEN** `QSettings` instance je izolovanÃ¡ pro danÃ½ test (session-scoped fixture, per-test files)
+- **AND** zmÄ›ny v nastavenÃ­ neovlivÅˆujÃ­ jinÃ© testy
 
 #### Scenario: Resources build gate in CI
-- **GIVEN** chybìjící nebo chybnì zkompilovaný `_icons_rc.py`
-- **WHEN** CI krok pro kontrolu resources je spuštìn
-- **THEN** CI pipeline selže
-- **AND** nedojde k tichému fallbacku na chybìjící resources
+- **GIVEN** chybÄ›jÃ­cÃ­ nebo chybnÄ› zkompilovanÃ½ `_icons_rc.py`
+- **WHEN** CI krok pro kontrolu resources je spuÂštÄ›n
+- **THEN** CI pipeline selÂže
+- **AND** nedojde k tichÃ©mu fallbacku na chybÄ›jÃ­cÃ­ resources
 
 ### Requirement: Worker Contract & Export Negative I/O
 Workers MUST have their public API covered by tests and export routines MUST handle negative I/O scenarios robustly.
 
 #### Scenario: Worker public API contract
 - **GIVEN** instance workeru
-- **WHEN** jsou volány metody `is_running()`, `state()` nebo je pøipojen slot k signálu `state_changed(WorkerState)`
-- **THEN** metody vracejí oèekávané typy (`bool`, `Enum`) a signál je emitován s korektním typem
+- **WHEN** jsou volÃ¡ny metody `is_running()`, `state()` nebo je pÅ™ipojen slot k signÃ¡lu `state_changed(WorkerState)`
+- **THEN** metody vracejÃ­ oÄekÃ¡vanÃ© typy (`bool`, `Enum`) a signÃ¡l je emitovÃ¡n s korektnÃ­m typem
 
 #### Scenario: Export to non-existent directory
-- **GIVEN** exportní operace s cílovým adresáøem, který neexistuje
-- **WHEN** export je spuštìn
-- **THEN** cílový adresáø je automaticky vytvoøen
-- **AND** export probìhne úspìšnì
+- **GIVEN** exportnÃ­ operace s cÃ­lovÃ½m adresÃ¡Å™em, kterÃ½ neexistuje
+- **WHEN** export je spuÂštÄ›n
+- **THEN** cÃ­lovÃ½ adresÃ¡Å™ je automaticky vytvoÅ™en
+- **AND** export probÄ›hne ÃºspÄ›ÂšnÄ›
 
 #### Scenario: Export write error handling
-- **GIVEN** exportní operace, kde dojde k `IOError` nebo `PermissionError` pøi zápisu souboru
-- **WHEN** export je spuštìn
-- **THEN** exportní funkce vyhodí pøíslušnou výjimku
+- **GIVEN** exportnÃ­ operace, kde dojde k `IOError` nebo `PermissionError` pÅ™i zÃ¡pisu souboru
+- **WHEN** export je spuÂštÄ›n
+- **THEN** exportnÃ­ funkce vyhodÃ­ pÅ™Ã­sluÂšnou vÃ½jimku
 - **AND** aplikace necrashne
+
+### Requirement: Headless startup (DI wiring)
+The app MUST start headless (offscreen), construct MainWindow, load resources, and exit cleanly without leaks.
+#### Scenario: Start in offscreen mode
+- **GIVEN** QT_QPA_PLATFORM=offscreen
+- **WHEN** application starts and MainWindow is created
+- **THEN** no exception is raised AND resources/icons are available AND window can be shown and closed cleanly
+
+### Requirement: PDF Viewer navigation & errors
+The PDF viewer MUST navigate within bounds and surface errors for invalid/empty PDFs without crashing.
+#### Scenario: Valid PDF navigation
+- **GIVEN** a valid multi-page PDF
+- **WHEN** user clicks next/prev/first/last
+- **THEN** current page changes accordingly and stays within bounds
+#### Scenario: Invalid/empty PDF handling
+- **GIVEN** an invalid or empty PDF
+- **WHEN** opened in viewer
+- **THEN** a visible error is shown AND no crash occurs AND WARN/ERROR is logged
+
+### Requirement: Theme & Delegates rendering
+Delegates MUST return correct types/semantics for roles (text/icon/tooltip/foreground) per AnalysisStatus and HiDPI.
+#### Scenario: Roles return proper types and values
+- **GIVEN** AnalysisStatus in {OK,WARN,FAIL}
+- **WHEN** data is requested for Display/Decoration/ToolTip/Foreground
+- **THEN** text/icon/tooltip/color match status semantics AND no None where a value is expected
+#### Scenario: HiDPI icon rendering
+- **GIVEN** devicePixelRatio > 1
+- **WHEN** an icon is requested
+- **THEN** a valid (renderable) icon is returned
+
+### Requirement: Table models role coverage
+Results/Tracks models MUST provide consistent values across (column Ã— role), with defined empties.
+#### Scenario: ResultsTableModel roles matrix
+- **GIVEN** a populated ResultsTableModel
+- **WHEN** iterating (column Ã— role)
+- **THEN** Display/Decoration/ToolTip/Foreground return expected semantics; empty cells return None/QVariant
+#### Scenario: TracksTableModel roles matrix
+- **GIVEN** a populated TracksTableModel
+- **WHEN** iterating (column Ã— role)
+- **THEN** the same guarantees hold
+
+### Requirement: Unicode in UI
+UI MUST correctly render diacritics/emoji across widgets and processing paths without crashes.
+#### Scenario: Diacritics and emoji round-trip
+- **GIVEN** names with diacritics and emoji
+- **WHEN** displayed in tables and passed through parsers
+- **THEN** strings render correctly (no replacement char) AND no crashes occur
+
+### Requirement: Logging assertions
+Negative paths MUST produce WARN/ERROR logs that tests assert explicitly.
+#### Scenario: Error/Warn logs on negative paths
+- **GIVEN** negative scenarios (invalid PDF, AI fallback, parser skips)
+- **WHEN** executed
+- **THEN** WARN/ERROR entries are logged and asserted in tests
+
+### Requirement: Per-module coverage gates (CI)
+CI MUST enforce per-module coverage thresholds to protect critical UI modules.
+#### Scenario: Enforce module thresholds
+- **GIVEN** a CI run with coverage
+- **WHEN** thresholds are evaluated
+- **THEN** ui/dialogs/settings_dialog.py â‰¥ 60 %, ui/main_window.py â‰¥ 40 %, ui/models/*.py â‰¥ 70 %
+
+### Requirement: Open & Defaults (BDD)
+SettingsDialog MUST expose business-meaningful defaults via a public model, not only widget texts, and allow exporting a stable schema snapshot.
+#### Scenario: Open dialog shows expected defaults
+GIVEN isolated QSettings and qapp
+WHEN I open SettingsDialog
+THEN default values match the public model (business-meaningful), not only widget texts
+AND exporting a schema dict of public keys matches the snapshot
+
+### Requirement: Round-trip Persistence
+SettingsDialog MUST persist changed values to QSettings and load them identically on reopen.
+#### Scenario: Save + reopen preserves values
+GIVEN I change LLM model, auto-export and paths
+WHEN I click Save/OK
+THEN QSettings contains new values AND reopening the dialog shows the same values
+
+### Requirement: Validation & Error Handling
+Invalid required inputs MUST block saving and surface a clear visual error without writing to QSettings.
+#### Scenario: Invalid input is blocked and signaled
+GIVEN an invalid or empty required field
+WHEN I try to save
+THEN an error indication is visible and no persistence occurs (QSettings unchanged)
+
+### Requirement: Signals & Public Contract
+The dialog MUST emit a single settings_saved(payload) on valid save and expose a public getter of values/model.
+#### Scenario: settings_saved emitted once with payload
+GIVEN a listener on settings_saved
+WHEN I save valid changes
+THEN settings_saved(payload) is emitted exactly once and payload is a serializable dict
+AND dialog exposes a public getter for values/model
+
+### Requirement: Critical Toggles & Boundaries
+Critical toggles (e.g. auto-export) and boundary numeric values MUST round-trip exactly through save/reopen.
+#### Scenario: Auto-export toggle and tolerance edges
+GIVEN auto-export toggle and boundary values (min/max)
+WHEN I change and save
+THEN model and QSettings reflect the change and reopening preserves values
+
+### Requirement: GUI Test Hygiene
+All UI tests MUST use pytest-qt fixtures (qapp/qtbot) and MUST NOT run their own event loop.
+#### Scenario: No manual event loop in tests
+GIVEN new UI tests
+WHEN they run
+THEN they use qapp/qtbot (pytest-qt) and do not call QApplication(...) or app.exec()
+
+### Requirement: File discovery on Windows/Unicode/long-path
+File discovery MUST handle diacritics, hidden/system files, and Windows long paths without crashes.
+#### Scenario: Unicode and hidden files
+GIVEN directories with diacritics and hidden/system files
+WHEN discovering pairs
+THEN Unicode paths are handled, hidden/system files follow policy, and no crash occurs
+#### Scenario: Long paths with \\?\\ prefix
+GIVEN Windows long-path prefixed paths
+WHEN discovering and exporting
+THEN operations succeed or fail with explicit error, not crash
+
+### Requirement: Export permission/lock handling
+Exports MUST fail cleanly on permission/lock errors with no partial outputs and proper logging.
+#### Scenario: Locked destination file
+GIVEN destination file locked by another process
+WHEN export runs
+THEN export fails with PermissionError/WinError and no partial output remains; error is logged
+
+### Requirement: WAV corruption handling
+WAV/ZIP corruption MUST have a defined contract (skip+WARN or explicit exception) without XFAIL masking.
+#### Scenario: Corrupted WAV/ZIP
+GIVEN a corrupted WAV and a ZIP with CRC failure
+WHEN reading
+THEN system either skips with WARN or raises a defined exception type; behavior is asserted in tests
+
+### Requirement: Config migration & compatibility
+Config loading/saving MUST support defaults, ignore unknown keys with WARN, and use atomic writes with rollback.
+#### Scenario: Missing/unknown keys and type changes
+GIVEN an older config missing new keys, extra unknown keys, and values with changed types
+WHEN loading and saving
+THEN defaults are applied, unknown keys ignored with WARN, type conversion is applied or a clear error is raised, and save is atomic with rollback
+
+### Requirement: Worker lifecycle & race safety
+Workers MUST avoid race conditions across double-start, cancel-restart, and window close during running.
+#### Scenario: Double-start and cancel-restart
+GIVEN a worker
+WHEN started twice or canceled then started again
+THEN states transition consistently; no zombie threads; is_running()/state() remain coherent
+
+### Requirement: Temp cleanup robustness
+Test/CI temp cleanup MUST continue despite locked files, logging WARN and leaving no residual dirs otherwise.
+#### Scenario: Locked temp file during cleanup
+GIVEN a locked temp file
+WHEN pytest cleanup runs
+THEN a WARN is logged, suite continues, and temp dirs are otherwise clean

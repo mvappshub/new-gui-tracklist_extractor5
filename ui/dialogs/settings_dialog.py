@@ -4,6 +4,7 @@ import logging
 import os
 from pathlib import Path
 
+from PyQt6.QtCore import pyqtSignal
 from PyQt6.QtWidgets import (
     QDialog,
     QDialogButtonBox,
@@ -14,11 +15,13 @@ from PyQt6.QtWidgets import (
 )
 
 from config import save_config, AppConfig
-from settings_page import SettingsPage
+from ui.pages.settings_page import SettingsPage
 
 
 class SettingsDialog(QDialog):
     """Modal settings dialog containing SettingsPage with Save/Cancel buttons."""
+
+    settings_saved = pyqtSignal(object)
 
     def __init__(self, settings_filename: Path, app_config: AppConfig, parent=None):
         super().__init__(parent)
@@ -70,15 +73,47 @@ class SettingsDialog(QDialog):
         msg_box.setWindowTitle(title)
         msg_box.exec()
 
+    def _validate_settings(self) -> bool:
+        """Validate settings before saving. Return True if valid, False if invalid."""
+        errors = []
+
+        # Check required paths are not empty
+        for key, display_name in [
+            ("input/pdf_dir", "PDF input directory"),
+            ("input/wav_dir", "WAV input directory"),
+            ("export/default_dir", "Export directory"),
+        ]:
+            value = self._app_config.get(key)
+            if not value or str(value).strip() == "":
+                errors.append(f"{display_name} cannot be empty")
+
+        if errors:
+            error_msg = "Please correct the following errors:\n\n" + "\n".join(f"• {error}" for error in errors)
+            self._show_safe_message_box(
+                "Validation Error",
+                error_msg,
+                QMessageBox.Icon.Warning,
+            )
+            return False
+
+        return True
+
     def _on_save(self) -> None:
         """Handle save button click - save config and accept dialog."""
-        if self._persist_settings():
-            self.accept()
+        if self._validate_settings():
+            if self._persist_settings():
+                self.accept()
+
+    def get_values(self) -> dict[str, object]:
+        """Return current configuration values keyed by config path."""
+        values = {}
+        for key in self._app_config.get_all_keys():
+            values[key] = self._app_config.get(key)
+        return values
 
     def _persist_settings(self) -> bool:
         try:
             save_config(self.settings_filename)
-            return True
         except Exception as exc:
             self._show_safe_message_box(
                 "Save Error",
@@ -86,6 +121,12 @@ class SettingsDialog(QDialog):
                 QMessageBox.Icon.Critical,
             )
             return False
+        # fall through on success
+        try:
+            self.settings_saved.emit(self.get_values())
+        except Exception as exc:
+            logging.exception("Exception in settings_saved signal emission")
+        return True
 
     def _on_setting_changed(self, key: str, value: object) -> None:
         try:
@@ -117,7 +158,7 @@ class SettingsDialog(QDialog):
         try:
             self._app_config.reset_to_defaults()
             save_config(self.settings_filename)
-            self._app_config.save()
+            # save_config() already persists the config, no need for redundant save()
             self.settings_page._sync_from_config()
             self.settings_page._reenable_widgets()
             self.settings_page._show_message("Defaults restored", "All settings were reset to defaults.", "info")

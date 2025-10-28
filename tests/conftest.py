@@ -195,3 +195,44 @@ def audio_mode_detector() -> FakeAudioModeDetector:
 def settings_filename(tmp_path: Path) -> Path:
     """Provide temporary settings filename for DI tests."""
     return tmp_path / "test_settings.json"
+
+
+@pytest.fixture
+def snapshot_json(request, tmp_path: Path) -> Callable[[dict, str], None]:
+    """Provide lightweight snapshot comparison for JSON data."""
+
+    def _compare(data: dict, snapshot_name: str) -> None:
+        snapshot_path = Path(__file__).parent / "snapshots" / f"{snapshot_name}.json"
+        if not snapshot_path.exists():
+            # Create initial snapshot
+            snapshot_path.parent.mkdir(parents=True, exist_ok=True)
+            import json
+            with snapshot_path.open("w", encoding="utf-8") as f:
+                json.dump(data, f, indent=2, ensure_ascii=False)
+            pytest.fail(f"Snapshot created: {snapshot_path}. Review and re-run tests.")
+
+        # Load and compare
+        import json
+        with snapshot_path.open("r", encoding="utf-8") as f:
+            expected = json.load(f)
+
+        if data != expected:
+            diff_lines = []
+            import difflib
+            expected_str = json.dumps(expected, indent=2, sort_keys=True)
+            actual_str = json.dumps(data, indent=2, sort_keys=True)
+            for line in difflib.unified_diff(
+                expected_str.splitlines(),
+                actual_str.splitlines(),
+                fromfile="expected",
+                tofile="actual",
+                lineterm=""
+            ):
+                diff_lines.append(line)
+
+            diff_display = "\n".join(diff_lines[:20])
+            if len(diff_lines) > 20:
+                diff_display += "\n... (truncated)"
+            pytest.fail(f"Snapshot mismatch for '{snapshot_name}':\n{diff_display}")
+
+    return _compare

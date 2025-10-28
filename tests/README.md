@@ -49,6 +49,56 @@ Run doctests for parser modules:
 pytest --doctest-modules core/parsers
 ```
 
+## BDD UI Tests
+
+SettingsDialog BDD tests are located in `tests/test_settings_dialog_bdd.py`. These tests use Given/When/Then structure for readability and cover 6 feature groups: smoke testing with defaults, round-trip persistence, validation & error handling, signals & public contract, critical toggles & boundaries, and CI invariants & hygiene.
+
+Run BDD tests specifically:
+
+```bash
+pytest -m gui tests/test_settings_dialog_bdd.py -v
+```
+
+## IO/Audio Edge Case Tests
+
+Comprehensive edge case testing for filesystem operations, audio processing, and system interactions:
+
+- **Filesystem edge cases** (`tests/test_file_discovery_fs_edges.py`) - Unicode paths, hidden files, Windows long paths, and deterministic duplicate handling
+- **Export edge cases** (`tests/test_export_fs_edges.py`) - read-only directories, locked files, permission errors, and partial write cleanup
+- **Audio corruption handling** (`tests/test_wav_reader_corruption.py`) - invalid RIFF headers, corrupted data chunks, truncated files, and malformed ZIP containers
+- **Configuration migration** (`tests/test_config_migrations.py`) - missing keys, unknown keys, type mismatches, and atomic save operations
+- **Worker lifecycle safety** (`tests/test_worker_lifecycle.py`) - double-start prevention, cancel/restart sequences, race conditions, and signal consistency
+- **Temporary cleanup robustness** (`tests/test_tmp_cleanup.py`) - locked temp files, permission handling, and cleanup verification
+
+Run edge case tests:
+
+```bash
+pytest tests/test_file_discovery_fs_edges.py \
+       tests/test_export_fs_edges.py \
+       tests/test_wav_reader_corruption.py \
+       tests/test_config_migrations.py \
+       tests/test_worker_lifecycle.py \
+       tests/test_tmp_cleanup.py -v
+```
+
+For Windows-specific tests (use `--basetemp` for temp cleanup):
+
+```bash
+pytest tests/test_*_edges.py tests/test_*_lifecycle.py tests/test_*_cleanup.py \
+       --basetemp=.pytest_tmp -k "windows or long_path or sharing"
+```
+
+## Snapshot Testing
+
+Configuration schema snapshots are stored in `tests/snapshots/settings_schema.json`. These are approval tests that must be deliberately updated when the configuration schema changes intentionally.
+
+To update snapshots:
+1. Review the test failure output showing expected vs actual values
+2. Manually update `tests/snapshots/settings_schema.json` with the new expected values
+3. Re-run tests to verify the snapshot matches
+
+Never auto-update snapshots without reviewing changes. Snapshot mismatches indicate unintended configuration schema changes and should trigger investigation.
+
 ## Key Fixtures (tests/conftest.py)
 
 - **`disable_network_access`** *(session, autouse)* – monkeypatches `socket` APIs so no test can reach the Internet.
@@ -62,11 +112,14 @@ pytest --doctest-modules core/parsers
 ## Authoring Guidelines
 
 - Treat AI-facing code as a contract: assert request payloads, temperature, message structure, and JSON shape explicitly.
+- Use Given/When/Then comments in BDD-style tests for clarity and readability.
+- All SettingsDialog tests must verify behavior through public API (`get_values()`, signals) not internal widget state.
+- Configuration changes must round-trip through QSettings and dialog reopen to verify persistence.
 - Prefer `qtbot.waitUntil` / `qtbot.wait` over manual event loops, and always add widgets via `qtbot.addWidget` for cleanup.
 - When testing file-system or settings behaviour, rely on `isolated_config` / `isolated_qsettings` so tests never touch user data.
 - For negative I/O scenarios, raise `PermissionError` or `IOError` and assert the exception propagates (no silent fallbacks).
 - Extend architectural guard-rails by editing `linter.ini` and adding snapshot tests when UI surface changes.
-- Snapshot updates must be deliberate—run `pytest --snapshot-update` locally and commit regenerated JSON alongside code changes.
+- Snapshot updates must be deliberate—edit `tests/snapshots/settings_schema.json` manually upon intentional schema changes, then re-run tests. (Adopting `syrupy` or `pytest-snapshot` would enable `--snapshot-update` in the future.)
 
 ## CI Expectations
 
